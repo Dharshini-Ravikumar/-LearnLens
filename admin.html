@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Portal – LearnLens Smart Academic Management</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/admin.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <div class="ll-app-layout">
+    <div class="ll-sidebar-backdrop"></div>
+
+    <!-- Sidebar -->
+    <aside class="ll-sidebar">
+      <div class="ll-sidebar-brand">
+        <a href="admin.html" class="ll-brand-link">
+          <div class="ll-brand-icon" style="background: linear-gradient(135deg, #8B5CF6, #6366F1);"><i class="fa-solid fa-shield-halved"></i></div>
+          <div class="ll-brand-text">LearnLens</div>
+        </a>
+      </div>
+
+      <div class="ll-sidebar-nav">
+        <div class="ll-nav-section-title">ADMINISTRATION & HEALTH</div>
+        <div class="ll-nav-item active" data-view="dashboard">
+          <i class="fa-solid fa-gauge-high"></i>
+          <span>Overview</span>
+        </div>
+        <div class="ll-nav-item" data-view="students">
+          <i class="fa-solid fa-user-graduate"></i>
+          <span>Student Directory</span>
+        </div>
+        <div class="ll-nav-item" data-view="faculty">
+          <i class="fa-solid fa-chalkboard-user"></i>
+          <span>Faculty Directory</span>
+        </div>
+        <div class="ll-nav-item" data-view="curriculum">
+          <i class="fa-solid fa-book-bookmark"></i>
+          <span>Curriculum & Subjects</span>
+        </div>
+
+        <div class="ll-nav-section-title">INTELLIGENCE & GOVERNANCE</div>
+        <div class="ll-nav-item" data-view="analytics">
+          <i class="fa-solid fa-chart-pie"></i>
+          <span>Institution Analytics</span>
+          <span class="badge badge-primary ll-nav-badge">BI</span>
+        </div>
+        <div class="ll-nav-item" data-view="users">
+          <i class="fa-solid fa-user-gear"></i>
+          <span>User Accounts & RBAC</span>
+        </div>
+        <div class="ll-nav-item" data-view="notifications">
+          <i class="fa-solid fa-bullhorn"></i>
+          <span>Broadcast Center</span>
+        </div>
+        <div class="ll-nav-item" data-view="reports">
+          <i class="fa-solid fa-file-contract"></i>
+          <span>Accreditation Reports</span>
+        </div>
+      </div>
+
+      <div class="ll-sidebar-footer">
+        <div class="ll-sidebar-role-indicator">
+          <div class="ll-brand-icon" style="width: 32px; height: 32px; font-size: 0.85rem; background: var(--lavender-500);"><i class="fa-solid fa-shield-halved"></i></div>
+          <div>
+            <div class="text-xs font-bold text-slate-800">Super Admin</div>
+            <div class="text-xs text-slate-400">Academic Dean</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Wrapper -->
+    <div class="ll-main-wrapper">
+      <header class="ll-topbar">
+        <div class="ll-topbar-left">
+          <button class="ll-sidebar-toggle" title="Toggle Sidebar">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="ll-global-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Search departments, courses, accounts..." />
+          </div>
+        </div>
+
+        <div class="ll-topbar-right">
+          <div class="hidden-mobile">
+            <button class="btn btn-outline btn-sm" onclick="window.learnLensAuth.quickDemoLogin('faculty')">
+              <i class="fa-solid fa-chalkboard-user text-emerald-500"></i> Switch to Faculty
+            </button>
+          </div>
+
+          <button class="ll-icon-btn" title="System Alerts" onclick="window.learnLensAdmin.renderView('analytics')">
+            <i class="fa-solid fa-triangle-exclamation text-amber-500"></i>
+            <span class="ll-icon-badge" id="admin-topbar-alert-count">3</span>
+          </button>
+
+          <div id="topbar-user-profile"></div>
+        </div>
+      </header>
+
+      <main class="ll-page-container">
+
+        <!-- =============================================================== -->
+        <!-- VIEW 1: ADMIN DASHBOARD -->
+        <!-- =============================================================== -->
+        <section id="view-dashboard" class="ll-view-pane">
+          <div class="ll-page-header">
+            <div>
+              <h1 class="ll-page-title">
+                Academic Administration Command Center 🏛️
+              </h1>
+              <p class="ll-page-subtitle">LearnLens Institute of Technology & Science • Institutional Performance & Oversight</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <button class="btn btn-outline" onclick="window.learnLensUI.resetDemoData()">
+                <i class="fa-solid fa-rotate-left"></i> Reset Demo Data
+              </button>
+              <button class="btn btn-primary" onclick="window.learnLensAdmin.openAddStudentModal()">
+                <i class="fa-solid fa-user-plus"></i> Enroll Student
+              </button>
+            </div>
+          </div>
+
+          <!-- Institutional KPI Grid -->
+          <div class="ll-metrics-grid">
+            <div class="ll-stat-card">
+              <div class="ll-stat-icon-wrapper icon-indigo"><i class="fa-solid fa-user-graduate"></i></div>
+              <div class="ll-stat-info">
+                <div class="ll-stat-label">Total Students</div>
+                <div class="ll-stat-value" id="admin-total-students">10</div>
+                <div class="ll-stat-footer text-emerald-600">Active enrollments</div>
+              </div>
+            </div>
+
+            <div class="ll-stat-card">
+              <div class="ll-stat-icon-wrapper icon-emerald"><i class="fa-solid fa-chalkboard-user"></i></div>
+              <div class="ll-stat-info">
+                <div class="ll-stat-label">Total Faculty</div>
+                <div class="ll-stat-value" id="admin-total-faculty">3</div>
+                <div class="ll-stat-footer text-slate-500">Across 3 departments</div>
+              </div>
+            </div>
+
+            <div class="ll-stat-card">
+              <div class="ll-stat-icon-wrapper icon-purple"><i class="fa-solid fa-building-columns"></i></div>
+              <div class="ll-stat-info">
+                <div class="ll-stat-label">Academic Departments</div>
+                <div class="ll-stat-value" id="admin-total-depts">3</div>
+                <div class="ll-stat-footer text-indigo-600">CSE • IT • DSAI</div>
+              </div>
+            </div>
+
+            <div class="ll-stat-card">
+              <div class="ll-stat-icon-wrapper icon-sky"><i class="fa-solid fa-book"></i></div>
+              <div class="ll-stat-info">
+                <div class="ll-stat-label">Degree Programs</div>
+                <div class="ll-stat-value" id="admin-total-courses">3</div>
+                <div class="ll-stat-footer text-slate-500">B.Tech Engineering</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Institutional Health Tiles -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; margin-bottom: 2rem;">
+            <div class="ll-stat-card" style="border-left: 4px solid var(--primary-600);">
+              <div class="ll-stat-icon-wrapper icon-indigo"><i class="fa-solid fa-clipboard-check"></i></div>
+              <div class="ll-stat-info">
+                <div class="ll-stat-label">Institution Attendance</div>
+                <div class="ll-stat-value" id="admin-inst-attendance">84.8%</div>
+                <div class="ll-stat-footer text-emerald-600">Compliant with regulatory body</div>
+              </div>
+            </div>
+
+            <div class="ll-stat-card" style="border-left: 4px solid var(--emerald-500);">
+              <div class="ll-stat-icon-wrapper icon-emerald"><i class="fa-solid fa-award"></i></div>
+              <div class="ll-stat-info">
+                <div class="ll-stat-label">Average Performance</div>
+                <div class="ll-stat-value" id="admin-inst-score">76%</div>
+                <div class="ll-stat-footer text-emerald-600">Grade B+ Institutional Average</div>
+              </div>
+            </div>
+
+            <div class="ll-stat-card" style="border-left: 4px solid var(--rose-500);">
+              <div class="ll-stat-icon-wrapper icon-rose"><i class="fa-solid fa-triangle-exclamation"></i></div>
+              <div class="ll-stat-info">
+                <div class="ll-stat-label">Active Academic Alerts</div>
+                <div class="ll-stat-value" id="admin-active-alerts">3</div>
+                <div class="ll-stat-footer text-rose-600">Students flagged for intervention</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Charts & Activity Feed -->
+          <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 1.5rem;" class="flex-wrap">
+            <div class="ll-card">
+              <div class="ll-card-header">
+                <div class="ll-card-title"><i class="fa-solid fa-chart-column text-indigo-600"></i> Department-Wise Academic & Attendance Health</div>
+                <span class="badge badge-info">Continuous Sync</span>
+              </div>
+              <div class="ll-card-body" style="height: 320px; position: relative;">
+                <canvas id="admin-dept-chart"></canvas>
+              </div>
+            </div>
+
+            <div class="ll-card">
+              <div class="ll-card-header">
+                <div class="ll-card-title"><i class="fa-solid fa-clock-rotate-left text-slate-500"></i> Institutional Activity Log</div>
+              </div>
+              <div class="ll-card-body" id="admin-recent-activities"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- =============================================================== -->
+        <!-- VIEW 2: STUDENT DIRECTORY (CRUD) -->
+        <!-- =============================================================== -->
+        <section id="view-students" class="ll-view-pane" style="display: none;">
+          <div class="ll-page-header">
+            <div>
+              <h1 class="ll-page-title"><i class="fa-solid fa-user-graduate text-indigo-600"></i> Student Directory & Enrollment</h1>
+              <p class="ll-page-subtitle">Manage student admissions, departmental allocations, and academic statuses.</p>
+            </div>
+            <button class="btn btn-primary" onclick="window.learnLensAdmin.openAddStudentModal()">
+              <i class="fa-solid fa-user-plus"></i> Add New Student
+            </button>
+          </div>
+
+          <div class="attendance-toolbar">
+            <div class="attendance-filters">
+              <div class="ll-global-search" style="width: 250px;">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="admin-student-search" placeholder="Search by name, roll, email..." oninput="window.learnLensAdmin.renderStudentManagement()" />
+              </div>
+              <select id="admin-student-dept-filter" class="form-control form-select" style="width: 220px;" onchange="window.learnLensAdmin.renderStudentManagement()">
+                <option value="ALL">All Departments</option>
+                <option value="DEP001">Computer Science (CSE)</option>
+                <option value="DEP002">Information Tech (IT)</option>
+                <option value="DEP003">Data Science (DSAI)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="ll-card">
+            <div class="ll-table-wrapper">
+              <table class="ll-table">
+                <thead>
+                  <tr>
+                    <th>Student Name</th>
+                    <th>Roll Number</th>
+                    <th>Department</th>
+                    <th>Section</th>
+                    <th>Cumulative Score</th>
+                    <th>Account Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-students-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- =============================================================== -->
+        <!-- VIEW 3: FACULTY DIRECTORY (CRUD) -->
+        <!-- =============================================================== -->
+        <section id="view-faculty" class="ll-view-pane" style="display: none;">
+          <div class="ll-page-header">
+            <div>
+              <h1 class="ll-page-title"><i class="fa-solid fa-chalkboard-user text-indigo-600"></i> Faculty Directory & Teaching Workloads</h1>
+              <p class="ll-page-subtitle">Appoint faculty, assign curriculum subjects, and monitor instructional allocations.</p>
+            </div>
+            <button class="btn btn-primary" onclick="window.learnLensAdmin.openAddFacultyModal()">
+              <i class="fa-solid fa-plus"></i> Add Faculty Member
+            </button>
+          </div>
+
+          <div class="ll-card">
+            <div class="ll-table-wrapper">
+              <table class="ll-table">
+                <thead>
+                  <tr>
+                    <th>Faculty Member</th>
+                    <th>Designation</th>
+                    <th>Department</th>
+                    <th>Assigned Subjects</th>
+                    <th>Classes</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-faculty-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- =============================================================== -->
+        <!-- VIEW 4: CURRICULUM, COURSES & SUBJECT MANAGEMENT -->
+        <!-- =============================================================== -->
+        <section id="view-curriculum" class="ll-view-pane" style="display: none;">
+          <div class="ll-page-header">
+            <div>
+              <h1 class="ll-page-title"><i class="fa-solid fa-book-bookmark text-indigo-600"></i> Curriculum, Departments & Subjects</h1>
+              <p class="ll-page-subtitle">Configure academic departments, degree programs, and credit courses.</p>
+            </div>
+            <button class="btn btn-primary" onclick="window.learnLensAdmin.openAddSubjectModal()">
+              <i class="fa-solid fa-plus"></i> Add Academic Subject
+            </button>
+          </div>
+
+          <h3 class="font-bold text-base text-slate-800 mb-3">Academic Departments</h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6" id="admin-depts-grid"></div>
+
+          <h3 class="font-bold text-base text-slate-800 mb-3">Core Semester Subjects</h3>
+          <div class="ll-card">
+            <div class="ll-table-wrapper">
+              <table class="ll-table">
+                <thead>
+                  <tr>
+                    <th>Subject Name</th>
+                    <th>Code</th>
+                    <th>Department</th>
+                    <th>Credits</th>
+                    <th>Faculty Lead</th>
+                    <th>Semester</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-subjects-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- =============================================================== -->
+        <!-- VIEW 5: INSTITUTION ANALYTICS -->
+        <!-- =============================================================== -->
+        <section id="view-analytics" class="ll-view-pane" style="display: none;">
+          <div class="ll-page-header">
+            <div>
+              <h1 class="ll-page-title"><i class="fa-solid fa-chart-pie text-indigo-600"></i> Institution Analytics & Academic Intelligence</h1>
+              <p class="ll-page-subtitle">Macro-level predictive insights on retention risk, pass rates, and department benchmarks.</p>
+            </div>
+          </div>
+
+          <div class="ll-card mb-4">
+            <div class="ll-card-header">
+              <div class="ll-card-title">Institutional Department Comparison</div>
+            </div>
+            <div class="ll-card-body" style="height: 340px; position: relative;">
+              <canvas id="institution-analytics-chart"></canvas>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;">
+            <div class="p-4 bg-rose-50 border border-rose-200 rounded-lg">
+              <div class="text-xs font-bold text-rose-700 uppercase mb-1">Academic Intervention Needed</div>
+              <div class="text-2xl font-bold text-rose-800" id="analytics-risk-count">3</div>
+              <p class="text-xs text-rose-600 mt-1">Students flagged below 50% score or 75% attendance threshold.</p>
+            </div>
+
+            <div class="p-4 bg-amber-50 border border-amber-200 rounded-lg">
+              <div class="text-xs font-bold text-amber-700 uppercase mb-1">Critical Failure Risk</div>
+              <div class="text-2xl font-bold text-amber-800" id="analytics-critical-count">1</div>
+              <p class="text-xs text-amber-600 mt-1">Students below 40% threshold requiring immediate mentoring.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- =============================================================== -->
+        <!-- VIEW 6: USER ACCOUNTS & RBAC -->
+        <!-- =============================================================== -->
+        <section id="view-users" class="ll-view-pane" style="display: none;">
+          <div class="ll-page-header">
+            <div>
+              <h1 class="ll-page-title"><i class="fa-solid fa-user-gear text-indigo-600"></i> User Accounts & Role-Based Access Control</h1>
+              <p class="ll-page-subtitle">View active credentials, switch roles, and audit account access privileges.</p>
+            </div>
+          </div>
+
+          <div class="ll-card">
+            <div class="ll-table-wrapper">
+              <table class="ll-table">
+                <thead>
+                  <tr>
+                    <th>User Identity</th>
+                    <th>Assigned Role</th>
+                    <th>Account Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-users-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- =============================================================== -->
+        <!-- VIEW 7: BROADCAST NOTIFICATION CENTER -->
+        <!-- =============================================================== -->
+        <section id="view-notifications" class="ll-view-pane" style="display: none;">
+          <div class="ll-page-header">
+            <div>
+              <h1 class="ll-page-title"><i class="fa-solid fa-bullhorn text-indigo-600"></i> Broadcast Notification Center</h1>
+              <p class="ll-page-subtitle">Publish institutional announcements that propagate across Student and Faculty dashboards.</p>
+            </div>
+          </div>
+
+          <div class="ll-card mb-6">
+            <div class="ll-card-header">
+              <div class="ll-card-title">Compose Institutional Announcement</div>
+            </div>
+            <div class="ll-card-body">
+              <form id="form-broadcast-notification" onsubmit="event.preventDefault(); window.learnLensAdmin.broadcastNotification();">
+                <div class="form-group">
+                  <label class="form-label">Broadcast Title</label>
+                  <input type="text" id="broadcast-title" class="form-control" placeholder="e.g. End-Semester Examination Schedule Announced" required />
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                  <div class="form-group">
+                    <label class="form-label">Target Audience</label>
+                    <select id="broadcast-audience" class="form-control form-select">
+                      <option value="All Students & Faculty">All Students & Faculty (Institution-Wide)</option>
+                      <option value="All Students">All Students Only</option>
+                      <option value="All Faculty">Faculty Members Only</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Priority</label>
+                    <select id="broadcast-priority" class="form-control form-select">
+                      <option value="Normal">Normal</option>
+                      <option value="High">High (Urgent Notification)</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Announcement Content</label>
+                  <textarea id="broadcast-content" class="form-control" rows="3" placeholder="Provide complete administrative notice or event guidelines..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                  <i class="fa-solid fa-paper-plane"></i> Publish Institution-Wide Announcement
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <h3 class="font-bold text-base text-slate-800 mb-3">Published Announcements Feed</h3>
+          <div id="admin-notifications-list"></div>
+        </section>
+
+        <!-- =============================================================== -->
+        <!-- VIEW 8: ACCREDITATION & INSTITUTION REPORTS -->
+        <!-- =============================================================== -->
+        <section id="view-reports" class="ll-view-pane" style="display: none;">
+          <div class="ll-page-header no-print">
+            <div>
+              <h1 class="ll-page-title"><i class="fa-solid fa-file-contract text-indigo-600"></i> Institutional Governance & Accreditation Report</h1>
+              <p class="ll-page-subtitle">Printable formal executive summary for university inspection and academic board review.</p>
+            </div>
+            <button class="btn btn-primary" onclick="window.learnLensAdmin.printReport()">
+              <i class="fa-solid fa-print"></i> Print Official Report
+            </button>
+          </div>
+
+          <div class="admin-report-container">
+            <div class="report-seal-header">
+              <div class="report-seal-logo">
+                <div class="ll-brand-icon" style="width: 48px; height: 48px; font-size: 1.4rem;"><i class="fa-solid fa-graduation-cap"></i></div>
+                <div>
+                  <h2 style="font-size: 1.5rem; font-weight: 800; color: var(--slate-900);">LearnLens Institute of Technology & Science</h2>
+                  <p class="text-xs text-slate-500">Board of Academic Governance • Comprehensive Semester Audit Report</p>
+                </div>
+              </div>
+              <div class="text-right">
+                <div class="font-mono text-xs font-bold text-indigo-600">AUDIT REF: LL-2026-F5</div>
+                <div class="text-xs text-slate-400">Date: November 19, 2026</div>
+              </div>
+            </div>
+
+            <p class="text-sm text-slate-700 leading-relaxed mb-4">
+              This certified academic management report summarizes institutional key performance indicators, department-level attendance metrics, faculty instruction loads, and learning gap remediation statistics for the current academic session.
+            </p>
+
+            <div class="report-grid-summary" style="grid-template-columns: repeat(4, 1fr);">
+              <div class="report-summary-box">
+                <div class="text-xs text-slate-400 uppercase font-semibold">Total Enrolled Cohort</div>
+                <div class="text-2xl font-bold text-slate-900 mt-1" id="rep-total-students">10</div>
+                <div class="text-xs text-emerald-600 font-semibold mt-1">100% Retained</div>
+              </div>
+              <div class="report-summary-box">
+                <div class="text-xs text-slate-400 uppercase font-semibold">Teaching Faculty Staff</div>
+                <div class="text-2xl font-bold text-slate-900 mt-1" id="rep-total-faculty">3</div>
+                <div class="text-xs text-slate-500 mt-1">Active Professors</div>
+              </div>
+              <div class="report-summary-box">
+                <div class="text-xs text-slate-400 uppercase font-semibold">Academic Departments</div>
+                <div class="text-2xl font-bold text-slate-900 mt-1" id="rep-total-depts">3</div>
+                <div class="text-xs text-indigo-600 font-semibold mt-1">Accredited Divisions</div>
+              </div>
+              <div class="report-summary-box">
+                <div class="text-xs text-slate-400 uppercase font-semibold">Course Pass Rate</div>
+                <div class="text-2xl font-bold text-indigo-600 mt-1" id="rep-pass-rate">90%</div>
+                <div class="text-xs text-emerald-600 font-semibold mt-1">Compliant</div>
+              </div>
+            </div>
+
+            <h4 class="font-bold text-sm text-slate-800 mb-2">Academic Continuous Improvement Highlights</h4>
+            <ul class="text-xs text-slate-600 leading-relaxed mb-6 space-y-1">
+              <li>• Automated Smart Learning Gap Detector identified 3 at-risk subject topics and triggered proactive mentoring interventions.</li>
+              <li>• Faculty Intervention Tracker documented an average +25% score gain in remediated students (e.g. Liam Patel in Data Structures).</li>
+              <li>• Institutional attendance compliance stands at 84.8%, safely exceeding the 75% statutory requirement.</li>
+            </ul>
+
+            <div class="flex items-center justify-between pt-6 border-t border-slate-200 text-xs text-slate-500">
+              <div>
+                <strong>Certified By:</strong> Dr. Eleanor Vance, Academic Dean
+              </div>
+              <div>
+                LearnLens Smart Academic Management Engine v1.2
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD / EDIT STUDENT -->
+  <div id="modal-manage-student" class="ll-modal-overlay">
+    <div class="ll-modal-dialog">
+      <div class="ll-modal-header">
+        <h3 class="font-bold text-base" id="modal-student-title">Add New Student</h3>
+        <button class="ll-modal-close" onclick="window.learnLensUI.closeModal('modal-manage-student')">&times;</button>
+      </div>
+      <form id="form-manage-student" onsubmit="event.preventDefault(); window.learnLensAdmin.saveStudentFromModal();">
+        <div class="ll-modal-body">
+          <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <input type="text" id="stu-modal-name" class="form-control" placeholder="e.g. Marcus Johnson" required />
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label">Email Address</label>
+              <input type="email" id="stu-modal-email" class="form-control" placeholder="student@learnlens.com" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Roll Number</label>
+              <input type="text" id="stu-modal-roll" class="form-control" placeholder="CS2023-0105" required />
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label">Department</label>
+              <select id="stu-modal-dept" class="form-control form-select"></select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Class Section</label>
+              <input type="text" id="stu-modal-section" class="form-control" value="CSE-3A" required />
+            </div>
+          </div>
+        </div>
+        <div class="ll-modal-footer">
+          <button type="button" class="btn btn-outline" onclick="window.learnLensUI.closeModal('modal-manage-student')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Student Record</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD / EDIT FACULTY -->
+  <div id="modal-manage-faculty" class="ll-modal-overlay">
+    <div class="ll-modal-dialog">
+      <div class="ll-modal-header">
+        <h3 class="font-bold text-base" id="modal-faculty-title">Add Faculty Member</h3>
+        <button class="ll-modal-close" onclick="window.learnLensUI.closeModal('modal-manage-faculty')">&times;</button>
+      </div>
+      <form id="form-manage-faculty" onsubmit="event.preventDefault(); window.learnLensAdmin.saveFacultyFromModal();">
+        <div class="ll-modal-body">
+          <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <input type="text" id="fac-modal-name" class="form-control" placeholder="e.g. Dr. Robert Vance" required />
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label">Email Address</label>
+              <input type="email" id="fac-modal-email" class="form-control" placeholder="faculty@learnlens.com" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Designation</label>
+              <input type="text" id="fac-modal-designation" class="form-control" placeholder="Professor & HOD" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Department</label>
+            <select id="fac-modal-dept" class="form-control form-select"></select>
+          </div>
+        </div>
+        <div class="ll-modal-footer">
+          <button type="button" class="btn btn-outline" onclick="window.learnLensUI.closeModal('modal-manage-faculty')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Faculty Member</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD SUBJECT -->
+  <div id="modal-add-subject" class="ll-modal-overlay">
+    <div class="ll-modal-dialog">
+      <div class="ll-modal-header">
+        <h3 class="font-bold text-base">Add Academic Subject</h3>
+        <button class="ll-modal-close" onclick="window.learnLensUI.closeModal('modal-add-subject')">&times;</button>
+      </div>
+      <form id="form-add-subject" onsubmit="event.preventDefault(); window.learnLensAdmin.saveSubjectFromModal();">
+        <div class="ll-modal-body">
+          <div class="form-group">
+            <label class="form-label">Subject Name</label>
+            <input type="text" id="subj-modal-name" class="form-control" placeholder="e.g. Distributed Cloud Computing" required />
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label">Subject Code</label>
+              <input type="text" id="subj-modal-code" class="form-control" placeholder="CS106" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Credits</label>
+              <input type="number" id="subj-modal-credits" class="form-control" value="4" min="1" max="6" required />
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label">Department</label>
+              <select id="subj-modal-dept" class="form-control form-select"></select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Semester</label>
+              <input type="number" id="subj-modal-sem" class="form-control" value="5" min="1" max="8" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Assign Faculty Member</label>
+            <select id="subj-modal-faculty" class="form-control form-select"></select>
+          </div>
+        </div>
+        <div class="ll-modal-footer">
+          <button type="button" class="btn btn-outline" onclick="window.learnLensUI.closeModal('modal-add-subject')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Create Subject</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/analytics.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

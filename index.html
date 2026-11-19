@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LearnLens – Transform the Way You Learn | AI-Powered Smart Academic System</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/login.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body style="background: #090912; color: #FFFFFF; overflow-x: hidden;">
+
+  <!-- Dark Tech Header Navigation -->
+  <header style="background: rgba(9, 9, 18, 0.9); backdrop-filter: blur(14px); border-bottom: 1px solid #19182B; position: sticky; top: 0; z-index: 100;">
+    <div style="max-width: 1320px; margin: 0 auto; padding: 1.1rem 2rem; display: flex; align-items: center; justify-content: space-between;">
+      <a href="index.html" class="ll-brand-link">
+        <div class="ll-brand-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+        <div class="ll-brand-text" style="color: #FFFFFF; font-size: 1.35rem; font-weight: 800; letter-spacing: -0.02em;">Learn<span style="color: #7050FF;">Lens</span></div>
+      </a>
+
+      <nav style="display: flex; align-items: center; gap: 2.2rem;" class="hidden-mobile">
+        <a href="#home" style="font-weight: 600; color: #FFFFFF; font-size: 0.9rem; transition: var(--transition);">Home</a>
+        <a href="#about" style="font-weight: 600; color: #777789; font-size: 0.9rem; transition: var(--transition);">About</a>
+        <a href="#features" style="font-weight: 600; color: #777789; font-size: 0.9rem; transition: var(--transition);">Features</a>
+        <a href="#modules" style="font-weight: 600; color: #777789; font-size: 0.9rem; transition: var(--transition);">Modules</a>
+        <a href="#contact" style="font-weight: 600; color: #777789; font-size: 0.9rem; transition: var(--transition);">Contact</a>
+      </nav>
+
+      <div style="display: flex; align-items: center; gap: 1rem;">
+        <a href="login.html" class="btn btn-outline" style="border-color: #19182B; color: #E6E5EF; padding: 0.55rem 1.15rem;">
+          Sign In
+        </a>
+        <a href="#demo" class="btn btn-primary" style="padding: 0.55rem 1.35rem;">
+          Get Started <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section – Bold, Oversized, Dark Tech & Violet -->
+  <section id="home" style="position: relative; padding: 6rem 1.5rem 5rem 1.5rem; text-align: center; overflow: hidden; background: radial-gradient(circle at 50% 20%, rgba(112, 80, 255, 0.18) 0%, rgba(25, 24, 43, 0.4) 40%, #090912 75%);">
+    
+    <!-- Subtle Ambient Glow -->
+    <div style="position: absolute; top: 10%; left: 50%; transform: translateX(-50%); width: 700px; height: 350px; background: radial-gradient(ellipse, rgba(112, 80, 255, 0.25), transparent 70%); filter: blur(50px); pointer-events: none;"></div>
+
+    <div style="max-width: 960px; margin: 0 auto; position: relative; z-index: 2;">
+      
+      <!-- Pill Badge -->
+      <div style="display: inline-flex; align-items: center; gap: 0.6rem; background: rgba(112, 80, 255, 0.15); border: 1px solid rgba(112, 80, 255, 0.4); color: #DDD8FF; padding: 0.45rem 1.25rem; border-radius: var(--radius-full); font-size: 0.825rem; font-weight: 700; margin-bottom: 2rem;">
+        <i class="fa-solid fa-bolt text-violet"></i> Next-Generation Intelligent Academic OS
+      </div>
+
+      <!-- Bold Oversized Heading -->
+      <h1 style="font-size: clamp(2.8rem, 6vw, 4.5rem); font-weight: 800; color: #FFFFFF; letter-spacing: -0.04em; line-height: 1.1; margin-bottom: 1.5rem;">
+        Transform the Way <br />
+        <span style="background: linear-gradient(135deg, #FFFFFF 20%, #7050FF 80%, #9B82FF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">You Learn.</span>
+      </h1>
+
+      <!-- Subtitle -->
+      <p style="font-size: 1.25rem; color: #E6E5EF; opacity: 0.9; line-height: 1.65; max-width: 760px; margin: 0 auto 2.75rem auto; font-weight: 400;">
+        An intelligent learning ecosystem connecting students, faculty, and administrators through automated learning gap detection, real-time warning systems, and gamified progress tracking.
+      </p>
+
+      <!-- Primary Action Buttons -->
+      <div style="display: flex; align-items: center; justify-content: center; gap: 1.25rem; flex-wrap: wrap; margin-bottom: 3.5rem;">
+        <a href="#demo" class="btn btn-primary btn-lg" style="font-size: 1.05rem; padding: 0.95rem 2.25rem;">
+          Get Started <i class="fa-solid fa-arrow-right"></i>
+        </a>
+        <a href="#features" class="btn btn-secondary btn-lg" style="border: 1px solid rgba(112, 80, 255, 0.3); font-size: 1.05rem; padding: 0.95rem 2.25rem;">
+          Explore Features
+        </a>
+      </div>
+
+      <!-- 1-Click Interactive Demo Buttons in Hero -->
+      <div id="demo" style="background: rgba(25, 24, 43, 0.7); backdrop-filter: blur(12px); border: 1.5px solid rgba(112, 80, 255, 0.35); border-radius: var(--radius-xl); padding: 1.85rem; box-shadow: 0 20px 50px rgba(9, 9, 18, 0.5);">
+        <div style="font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: #7050FF; margin-bottom: 1.15rem;">
+          <i class="fa-solid fa-fingerprint"></i> Fast 1-Click Demo Portals (No Password Required)
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem;">
+          <button class="btn btn-primary" onclick="window.learnLensAuth.quickDemoLogin('student')" style="padding: 0.85rem 1.25rem;">
+            <i class="fa-solid fa-graduation-cap"></i> Launch Student (Alex Rivera)
+          </button>
+          <button class="btn btn-secondary" onclick="window.learnLensAuth.quickDemoLogin('faculty')" style="border: 1px solid rgba(112, 80, 255, 0.3); padding: 0.85rem 1.25rem;">
+            <i class="fa-solid fa-chalkboard-user text-green"></i> Launch Faculty (Dr. Vance)
+          </button>
+          <button class="btn btn-secondary" onclick="window.learnLensAuth.quickDemoLogin('admin')" style="border: 1px solid rgba(112, 80, 255, 0.3); padding: 0.85rem 1.25rem;">
+            <i class="fa-solid fa-shield-halved text-violet"></i> Launch Admin (Dean Vance)
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Futuristic Tech Mockup / Interactive UI Preview -->
+    <div style="max-width: 1180px; margin: 4.5rem auto 0 auto; position: relative;">
+      <div style="background: linear-gradient(180deg, #19182B 0%, #090912 100%); border: 1.5px solid rgba(112, 80, 255, 0.35); border-radius: var(--radius-xl); overflow: hidden; box-shadow: 0 25px 60px rgba(9, 9, 18, 0.8), 0 0 50px rgba(112, 80, 255, 0.15);">
+        
+        <!-- Window Chrome -->
+        <div style="background: #10101A; padding: 0.85rem 1.5rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #19182B;">
+          <div style="display: flex; gap: 0.5rem;">
+            <span style="width: 12px; height: 12px; border-radius: 50%; background: #EF6262;"></span>
+            <span style="width: 12px; height: 12px; border-radius: 50%; background: #F2A541;"></span>
+            <span style="width: 12px; height: 12px; border-radius: 50%; background: #36B98A;"></span>
+          </div>
+          <div style="font-family: var(--font-mono); font-size: 0.75rem; color: #777789;">
+            learnlens.app/student/dashboard • AI Cognitive Sync Active
+          </div>
+          <div style="width: 40px;"></div>
+        </div>
+
+        <!-- Inner Mockup Dashboard Preview -->
+        <div style="padding: 2.25rem; display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 1.5rem; text-align: left;" class="hidden-mobile">
+          
+          <!-- Column 1: Stat & Level -->
+          <div style="background: rgba(9, 9, 18, 0.8); border: 1px solid #19182B; border-radius: var(--radius-lg); padding: 1.5rem;">
+            <div style="font-size: 0.75rem; font-weight: 700; color: #777789; text-transform: uppercase;">Overall Mastery</div>
+            <div style="font-size: 2.6rem; font-weight: 800; color: #FFFFFF; margin: 0.4rem 0;">82%</div>
+            <span class="badge badge-success text-xs"><i class="fa-solid fa-arrow-trend-up"></i> +8.4% Delta</span>
+            
+            <div style="margin-top: 1.75rem; padding-top: 1.25rem; border-top: 1px solid #19182B;">
+              <div style="font-size: 0.75rem; font-weight: 700; color: #777789; text-transform: uppercase;">Level 5 Scholar</div>
+              <div style="font-size: 1.1rem; font-weight: 800; color: #7050FF; margin: 0.2rem 0;">1,450 XP</div>
+              <div class="ll-progress" style="background: #19182B; height: 6px;"><div class="ll-progress-bar primary" style="width: 78%;"></div></div>
+            </div>
+          </div>
+
+          <!-- Column 2: Diagnostic Gap Alert -->
+          <div style="background: rgba(9, 9, 18, 0.8); border: 1px solid rgba(112, 80, 255, 0.3); border-radius: var(--radius-lg); padding: 1.5rem;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.85rem;">
+              <div style="font-weight: 800; font-size: 0.95rem; color: #FFFFFF; display: flex; align-items: center; gap: 0.5rem;">
+                <i class="fa-solid fa-brain text-violet"></i> Smart Learning Gap Detector
+              </div>
+              <span class="badge badge-warning">Advisory Triggered</span>
+            </div>
+            <p style="font-size: 0.825rem; color: #E6E5EF; line-height: 1.5; margin-bottom: 1rem;">
+              Rule-based analysis diagnosed concept shortfall in <strong>Machine Learning &amp; Predictive Analytics</strong>:
+            </p>
+            <div style="display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1.25rem;">
+              <span style="background: #19182B; border: 1px solid rgba(112, 80, 255, 0.25); color: #DDD8FF; font-size: 0.725rem; font-weight: 700; padding: 0.25rem 0.65rem; border-radius: var(--radius-full);">
+                Gradient Descent Cost
+              </span>
+              <span style="background: #19182B; border: 1px solid rgba(112, 80, 255, 0.25); color: #DDD8FF; font-size: 0.725rem; font-weight: 700; padding: 0.25rem 0.65rem; border-radius: var(--radius-full);">
+                L1/L2 Regularization
+              </span>
+            </div>
+            <div style="display: flex; gap: 0.75rem;">
+              <button class="btn btn-primary btn-sm" style="font-size: 0.775rem;">Auto-Schedule Revision</button>
+              <button class="btn btn-secondary btn-sm" style="font-size: 0.775rem; border: 1px solid #19182B;">Diagnostic Quiz</button>
+            </div>
+          </div>
+
+          <!-- Column 3: Daily Attendance & Badges -->
+          <div style="background: rgba(9, 9, 18, 0.8); border: 1px solid #19182B; border-radius: var(--radius-lg); padding: 1.5rem;">
+            <div style="font-size: 0.75rem; font-weight: 700; color: #777789; text-transform: uppercase;">Attendance Standing</div>
+            <div style="font-size: 2.4rem; font-weight: 800; color: #36B98A; margin: 0.35rem 0;">86.6%</div>
+            <span class="badge badge-success text-xs"><i class="fa-solid fa-check"></i> Examination Eligible</span>
+
+            <div style="margin-top: 1.5rem; display: flex; gap: 0.5rem;">
+              <div style="width: 38px; height: 38px; border-radius: var(--radius-full); background: rgba(112, 80, 255, 0.2); border: 1px solid #7050FF; display: flex; align-items: center; justify-content: center; color: #7050FF;" title="Algorithm Ace">
+                <i class="fa-solid fa-code text-sm"></i>
+              </div>
+              <div style="width: 38px; height: 38px; border-radius: var(--radius-full); background: rgba(242, 165, 65, 0.2); border: 1px solid #F2A541; display: flex; align-items: center; justify-content: center; color: #F2A541;" title="Consistency Master">
+                <i class="fa-solid fa-fire text-sm"></i>
+              </div>
+              <div style="width: 38px; height: 38px; border-radius: var(--radius-full); background: rgba(54, 185, 138, 0.2); border: 1px solid #36B98A; display: flex; align-items: center; justify-content: center; color: #36B98A;" title="Quiz Champion">
+                <i class="fa-solid fa-trophy text-sm"></i>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" style="padding: 6rem 1.5rem; max-width: 1320px; margin: 0 auto;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 3.5rem; align-items: center;">
+      <div>
+        <div style="font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: #7050FF; margin-bottom: 0.85rem;">
+          About LearnLens
+        </div>
+        <h2 style="font-size: 2.6rem; font-weight: 800; color: #FFFFFF; line-height: 1.2; margin-bottom: 1.25rem;">
+          Designed to Connect Every Stakeholder in Higher Education.
+        </h2>
+        <p style="font-size: 1.05rem; color: #E6E5EF; opacity: 0.85; line-height: 1.7; margin-bottom: 1.5rem;">
+          Traditional educational management software isolates data into rigid departmental silos. LearnLens changes the paradigm by introducing a reactive single-source architecture where actions taken by faculty immediately power student insights and institutional analytics.
+        </p>
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+          <div style="display: flex; align-items: center; gap: 0.85rem;">
+            <i class="fa-solid fa-circle-check text-green" style="font-size: 1.2rem;"></i>
+            <span style="font-weight: 600; color: #FFFFFF;">No expensive paid APIs required – works completely standalone</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.85rem;">
+            <i class="fa-solid fa-circle-check text-green" style="font-size: 1.2rem;"></i>
+            <span style="font-weight: 600; color: #FFFFFF;">Rule-driven cognitive logic clearly distinguished from black-box AI</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.85rem;">
+            <i class="fa-solid fa-circle-check text-green" style="font-size: 1.2rem;"></i>
+            <span style="font-weight: 600; color: #FFFFFF;">Persistent LocalStorage synchronization with real-time reactivity</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- High Contrast Metrics -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+        <div class="ll-stat-card-dark">
+          <div class="ll-stat-info">
+            <div class="ll-stat-label">Response Time</div>
+            <div class="ll-stat-value text-violet">&lt; 15ms</div>
+            <div class="ll-stat-footer text-muted">Local In-Memory Cache</div>
+          </div>
+        </div>
+        <div class="ll-stat-card-dark">
+          <div class="ll-stat-info">
+            <div class="ll-stat-label">Retention Impact</div>
+            <div class="ll-stat-value text-green">+25%</div>
+            <div class="ll-stat-footer text-muted">Documented Recovery</div>
+          </div>
+        </div>
+        <div class="ll-stat-card-dark">
+          <div class="ll-stat-info">
+            <div class="ll-stat-label">Integrated Roles</div>
+            <div class="ll-stat-value">3 Roles</div>
+            <div class="ll-stat-footer text-muted">Student • Faculty • Admin</div>
+          </div>
+        </div>
+        <div class="ll-stat-card-dark">
+          <div class="ll-stat-info">
+            <div class="ll-stat-label">Curriculum Depth</div>
+            <div class="ll-stat-value text-violet">5 Subjects</div>
+            <div class="ll-stat-footer text-muted">CS, IT &amp; Data Science</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 Integrated Modules Section -->
+  <section id="modules" style="background: #10101A; padding: 6rem 1.5rem; border-top: 1px solid #19182B; border-bottom: 1px solid #19182B;">
+    <div style="max-width: 1320px; margin: 0 auto;">
+      <div style="text-align: center; margin-bottom: 4rem;">
+        <div style="font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: #7050FF; margin-bottom: 0.5rem;">
+          Three Connected Modules
+        </div>
+        <h2 style="font-size: 2.6rem; font-weight: 800; color: #FFFFFF;">
+          A Unified Solution for Your Entire Campus
+        </h2>
+        <p style="color: #777789; font-size: 1.05rem; margin-top: 0.5rem; max-width: 620px; margin-left: auto; margin-right: auto;">
+          Every user role enjoys a customized dashboard with dedicated workflows and cross-role communication.
+        </p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem;">
+        
+        <!-- Student Module Card -->
+        <div style="background: #19182B; border: 1.5px solid rgba(112, 80, 255, 0.3); border-radius: var(--radius-xl); padding: 2.25rem; display: flex; flex-direction: column; justify-content: space-between; transition: var(--transition);" onmouseenter="this.style.borderColor='#7050FF'; this.style.transform='translateY(-4px)';" onmouseleave="this.style.borderColor='rgba(112, 80, 255, 0.3)'; this.style.transform='none';">
+          <div>
+            <div style="width: 52px; height: 52px; border-radius: var(--radius-md); background: rgba(112, 80, 255, 0.2); border: 1px solid #7050FF; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #7050FF; margin-bottom: 1.5rem;">
+              <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+            <h3 style="font-size: 1.5rem; font-weight: 800; color: #FFFFFF; margin-bottom: 0.65rem;">Student Portal</h3>
+            <p style="font-size: 0.9rem; color: #E6E5EF; opacity: 0.85; line-height: 1.6; margin-bottom: 1.5rem;">
+              Empowers learners with self-diagnosis tools, adaptive study planners, gamified rewards, and an offline curriculum AI tutor.
+            </p>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.85rem; color: #E6E5EF; margin-bottom: 2rem;">
+              <li><i class="fa-solid fa-check text-violet mr-2"></i> Performance Analyzer &amp; Progress Charts</li>
+              <li><i class="fa-solid fa-check text-violet mr-2"></i> Smart Learning Gap Detector with Concept Chips</li>
+              <li><i class="fa-solid fa-check text-violet mr-2"></i> Study Planner with Priority Task Scheduling</li>
+              <li><i class="fa-solid fa-check text-violet mr-2"></i> Interactive Multiple-Choice Quizzes &amp; Review</li>
+              <li><i class="fa-solid fa-check text-violet mr-2"></i> Learning Rewards with XP, Levels &amp; Badges</li>
+            </ul>
+          </div>
+          <button class="btn btn-primary w-full" style="width: 100%;" onclick="window.learnLensAuth.quickDemoLogin('student')">
+            Launch Student Portal <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+
+        <!-- Faculty Module Card -->
+        <div style="background: #19182B; border: 1.5px solid rgba(54, 185, 138, 0.3); border-radius: var(--radius-xl); padding: 2.25rem; display: flex; flex-direction: column; justify-content: space-between; transition: var(--transition);" onmouseenter="this.style.borderColor='#36B98A'; this.style.transform='translateY(-4px)';" onmouseleave="this.style.borderColor='rgba(54, 185, 138, 0.3)'; this.style.transform='none';">
+          <div>
+            <div style="width: 52px; height: 52px; border-radius: var(--radius-md); background: rgba(54, 185, 138, 0.2); border: 1px solid #36B98A; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #36B98A; margin-bottom: 1.5rem;">
+              <i class="fa-solid fa-chalkboard-user"></i>
+            </div>
+            <h3 style="font-size: 1.5rem; font-weight: 800; color: #FFFFFF; margin-bottom: 0.65rem;">Faculty Portal</h3>
+            <p style="font-size: 0.9rem; color: #E6E5EF; opacity: 0.85; line-height: 1.6; margin-bottom: 1.5rem;">
+              Streamlines daily instruction with quick attendance marking, code evaluation, quiz authoring, and academic warning triage.
+            </p>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.85rem; color: #E6E5EF; margin-bottom: 2rem;">
+              <li><i class="fa-solid fa-check text-green mr-2"></i> Daily Attendance Matrix with 1-Click Present</li>
+              <li><i class="fa-solid fa-check text-green mr-2"></i> Assignment Evaluation with Feedback &amp; Rubrics</li>
+              <li><i class="fa-solid fa-check text-green mr-2"></i> Interactive Quiz Creation with Explanations</li>
+              <li><i class="fa-solid fa-check text-green mr-2"></i> Early Academic Warning Triage Dashboard</li>
+              <li><i class="fa-solid fa-check text-green mr-2"></i> Faculty Intervention Tracker with Impact Deltas</li>
+            </ul>
+          </div>
+          <button class="btn btn-secondary w-full" style="width: 100%; border: 1px solid #36B98A; color: #FFFFFF;" onclick="window.learnLensAuth.quickDemoLogin('faculty')">
+            Launch Faculty Portal <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+
+        <!-- Admin Module Card -->
+        <div style="background: #19182B; border: 1.5px solid rgba(142, 81, 255, 0.3); border-radius: var(--radius-xl); padding: 2.25rem; display: flex; flex-direction: column; justify-content: space-between; transition: var(--transition);" onmouseenter="this.style.borderColor='#8E51FF'; this.style.transform='translateY(-4px)';" onmouseleave="this.style.borderColor='rgba(142, 81, 255, 0.3)'; this.style.transform='none';">
+          <div>
+            <div style="width: 52px; height: 52px; border-radius: var(--radius-md); background: rgba(142, 81, 255, 0.2); border: 1px solid #8E51FF; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #8E51FF; margin-bottom: 1.5rem;">
+              <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <h3 style="font-size: 1.5rem; font-weight: 800; color: #FFFFFF; margin-bottom: 0.65rem;">Admin Portal</h3>
+            <p style="font-size: 0.9rem; color: #E6E5EF; opacity: 0.85; line-height: 1.6; margin-bottom: 1.5rem;">
+              Provides institutional governance, full directory CRUD management, departmental benchmarking, and accreditation reporting.
+            </p>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.85rem; color: #E6E5EF; margin-bottom: 2rem;">
+              <li><i class="fa-solid fa-check text-violet mr-2"></i> Full Student &amp; Faculty CRUD Management</li>
+              <li><i class="fa-solid fa-check text-violet mr-2"></i> Departments, Degrees &amp; Course Catalogs</li>
+              <li><i class="fa-solid fa-check text-violet mr-2"></i> Institutional Department Comparison Analytics</li>
+              <li><i class="fa-solid fa-check text-violet mr-2"></i> Campus Broadcast Center for Announcements</li>
+              <li><i class="fa-solid fa-check text-violet mr-2"></i> Printable Official Accreditation &amp; Audit Reports</li>
+            </ul>
+          </div>
+          <button class="btn btn-secondary w-full" style="width: 100%; border: 1px solid #8E51FF; color: #FFFFFF;" onclick="window.learnLensAuth.quickDemoLogin('admin')">
+            Launch Admin Portal <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Innovative Features Showcase Section (6 Features) -->
+  <section id="features" style="padding: 6rem 1.5rem; max-width: 1320px; margin: 0 auto;">
+    <div style="text-align: center; margin-bottom: 4rem;">
+      <div style="font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: #7050FF; margin-bottom: 0.5rem;">
+        Unmatched Intelligence
+      </div>
+      <h2 style="font-size: 2.6rem; font-weight: 800; color: #FFFFFF;">
+        6 Groundbreaking Educational Innovations
+      </h2>
+      <p style="color: #777789; font-size: 1.05rem; margin-top: 0.5rem;">
+        Engineered specifically to boost retention, accelerate learning mastery, and eliminate administrative friction.
+      </p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 1.75rem;">
+      
+      <!-- Feature 1 -->
+      <div style="background: #19182B; border: 1px solid rgba(112, 80, 255, 0.25); border-radius: var(--radius-lg); padding: 1.75rem;">
+        <div style="font-size: 1.8rem; color: #7050FF; margin-bottom: 1rem;"><i class="fa-solid fa-brain"></i></div>
+        <h4 style="font-size: 1.2rem; font-weight: 800; color: #FFFFFF; margin-bottom: 0.5rem;">1. Smart Learning Gap Detector</h4>
+        <p style="font-size: 0.875rem; color: #E6E5EF; opacity: 0.8; line-height: 1.6;">
+          Analyzes student marks and quiz answers against customizable mastery thresholds (e.g. 65%) to pinpoint exact syllabus concepts requiring revision.
+        </p>
+      </div>
+
+      <!-- Feature 2 -->
+      <div style="background: #19182B; border: 1px solid rgba(239, 98, 98, 0.25); border-radius: var(--radius-lg); padding: 1.75rem;">
+        <div style="font-size: 1.8rem; color: #EF6262; margin-bottom: 1rem;"><i class="fa-solid fa-triangle-exclamation"></i></div>
+        <h4 style="font-size: 1.2rem; font-weight: 800; color: #FFFFFF; margin-bottom: 0.5rem;">2. Early Academic Warning System</h4>
+        <p style="font-size: 0.875rem; color: #E6E5EF; opacity: 0.8; line-height: 1.6;">
+          Automatically flags students with scores below 40%, attendance deficits under 75%, or overdue assignments, notifying faculty before failures occur.
+        </p>
+      </div>
+
+      <!-- Feature 3 -->
+      <div style="background: #19182B; border: 1px solid rgba(112, 80, 255, 0.25); border-radius: var(--radius-lg); padding: 1.75rem;">
+        <div style="font-size: 1.8rem; color: #8F75FF; margin-bottom: 1rem;"><i class="fa-solid fa-route"></i></div>
+        <h4 style="font-size: 1.2rem; font-weight: 800; color: #FFFFFF; margin-bottom: 0.5rem;">3. Personalized Study Roadmap</h4>
+        <p style="font-size: 0.875rem; color: #E6E5EF; opacity: 0.8; line-height: 1.6;">
+          Generates intelligent, adaptive 7-day study plans dynamically prioritized by approaching assignment deadlines and diagnosed weak subjects.
+        </p>
+      </div>
+
+      <!-- Feature 4 -->
+      <div style="background: #19182B; border: 1px solid rgba(242, 165, 65, 0.25); border-radius: var(--radius-lg); padding: 1.75rem;">
+        <div style="font-size: 1.8rem; color: #F2A541; margin-bottom: 1rem;"><i class="fa-solid fa-award"></i></div>
+        <h4 style="font-size: 1.2rem; font-weight: 800; color: #FFFFFF; margin-bottom: 0.5rem;">4. Learning Rewards &amp; Gamification</h4>
+        <p style="font-size: 0.875rem; color: #E6E5EF; opacity: 0.8; line-height: 1.6;">
+          Awards XP points, unlockable badges (e.g. <em>Algorithm Ace</em>, <em>Consistency Master</em>), and study streak meters for completing quizzes and tasks.
+        </p>
+      </div>
+
+      <!-- Feature 5 -->
+      <div style="background: #19182B; border: 1px solid rgba(54, 185, 138, 0.25); border-radius: var(--radius-lg); padding: 1.75rem;">
+        <div style="font-size: 1.8rem; color: #36B98A; margin-bottom: 1rem;"><i class="fa-solid fa-heart-pulse"></i></div>
+        <h4 style="font-size: 1.2rem; font-weight: 800; color: #FFFFFF; margin-bottom: 0.5rem;">5. Faculty Intervention Tracker</h4>
+        <p style="font-size: 0.875rem; color: #E6E5EF; opacity: 0.8; line-height: 1.6;">
+          Logs 1-on-1 counseling notes and calculates the exact post-intervention <em>Impact Delta</em> (e.g. Liam Patel improving +25% post-mentoring).
+        </p>
+      </div>
+
+      <!-- Feature 6 -->
+      <div style="background: #19182B; border: 1px solid rgba(112, 80, 255, 0.25); border-radius: var(--radius-lg); padding: 1.75rem;">
+        <div style="font-size: 1.8rem; color: #7050FF; margin-bottom: 1rem;"><i class="fa-solid fa-chart-pie"></i></div>
+        <h4 style="font-size: 1.2rem; font-weight: 800; color: #FFFFFF; margin-bottom: 0.5rem;">6. Institutional Intelligence</h4>
+        <p style="font-size: 0.875rem; color: #E6E5EF; opacity: 0.8; line-height: 1.6;">
+          Gives deans and department heads macro-analytics on pass rates, subject risk curves, and cross-departmental academic trends.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" style="background: #10101A; padding: 5rem 1.5rem; border-top: 1px solid #19182B;">
+    <div style="max-width: 900px; margin: 0 auto; text-align: center;">
+      <h2 style="font-size: 2.4rem; font-weight: 800; color: #FFFFFF; margin-bottom: 1rem;">
+        Ready to Transform Your Academic Institution?
+      </h2>
+      <p style="color: #E6E5EF; opacity: 0.85; font-size: 1.05rem; margin-bottom: 2.5rem;">
+        Experience LearnLens right in your browser with pre-loaded realistic data for 10 students, 3 faculty members, and 3 academic departments.
+      </p>
+      <div style="display: flex; justify-content: center; gap: 1.25rem; flex-wrap: wrap;">
+        <a href="login.html" class="btn btn-primary btn-lg">
+          Launch LearnLens Portal <i class="fa-solid fa-arrow-right"></i>
+        </a>
+        <button class="btn btn-outline btn-lg" onclick="window.learnLensUI.resetDemoData()">
+          <i class="fa-solid fa-rotate-left"></i> Reset Demo Dataset
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dark Tech Footer -->
+  <footer style="background: #090912; color: #777789; padding: 3rem 1.5rem; border-top: 1px solid #19182B; text-align: center; font-size: 0.85rem;">
+    <div style="max-width: 1320px; margin: 0 auto;">
+      <div style="display: flex; align-items: center; justify-content: center; gap: 0.85rem; color: #FFFFFF; font-weight: 800; font-size: 1.4rem; margin-bottom: 0.85rem;">
+        <div class="ll-brand-icon"><i class="fa-solid fa-graduation-cap"></i></div> LearnLens
+      </div>
+      <p style="margin-bottom: 1.5rem; color: #E6E5EF; opacity: 0.7;">Learn Smarter. Teach Better. Manage Efficiently.</p>
+      <div style="display: flex; align-items: center; justify-content: center; gap: 1.75rem; margin-bottom: 1.5rem;" class="text-xs">
+        <a href="student.html" style="color: #E6E5EF;">Student Portal</a>
+        <a href="faculty.html" style="color: #E6E5EF;">Faculty Portal</a>
+        <a href="admin.html" style="color: #E6E5EF;">Admin Portal</a>
+        <a href="login.html" style="color: #E6E5EF;">Direct Sign In</a>
+      </div>
+      <p class="text-xs" style="color: #777789;">
+        © 2026 LearnLens Systems. Designed with Dark Tech &amp; Violet Theme (Combo 08). Built with HTML5, CSS3, JavaScript, Chart.js &amp; LocalStorage.
+      </p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/common.js"></script>
+</body>
+</html>

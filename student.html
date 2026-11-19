@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Portal – LearnLens Smart Academic Management</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/student.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <div class="ll-app-layout">
+    <div class="ll-sidebar-backdrop"></div>
+
+    <!-- Collapsible Sidebar -->
+    <aside class="ll-sidebar">
+      <div class="ll-sidebar-brand">
+        <a href="student.html" class="ll-brand-link">
+          <div class="ll-brand-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+          <div class="ll-brand-text">LearnLens</div>
+        </a>
+      </div>
+
+      <div class="ll-sidebar-nav">
+        <div class="ll-nav-section-title">CORE LEARNING</div>
+        <div class="ll-nav-item active" data-view="dashboard">
+          <i class="fa-solid fa-gauge-high"></i>
+          <span>Dashboard</span>
+        </div>
+        <div class="ll-nav-item" data-view="analyzer">
+          <i class="fa-solid fa-chart-column"></i>
+          <span>Performance Analyzer</span>
+        </div>
+        <div class="ll-nav-item" data-view="gaps">
+          <i class="fa-solid fa-brain"></i>
+          <span>Learning Gap Detector</span>
+          <span class="badge badge-warning ll-nav-badge">AI</span>
+        </div>
+        <div class="ll-nav-item" data-view="planner">
+          <i class="fa-solid fa-calendar-check"></i>
+          <span>Smart Study Planner</span>
+        </div>
+
+        <div class="ll-nav-section-title">ACADEMICS & ASSESSMENTS</div>
+        <div class="ll-nav-item" data-view="assignments">
+          <i class="fa-solid fa-file-lines"></i>
+          <span>Assignment Center</span>
+        </div>
+        <div class="ll-nav-item" data-view="quizzes">
+          <i class="fa-solid fa-circle-question"></i>
+          <span>Quizzes & Tests</span>
+        </div>
+        <div class="ll-nav-item" data-view="attendance">
+          <i class="fa-solid fa-user-check"></i>
+          <span>Attendance Tracker</span>
+        </div>
+
+        <div class="ll-nav-section-title">AI & REPORTS</div>
+        <div class="ll-nav-item" data-view="ai-assistant">
+          <i class="fa-solid fa-robot"></i>
+          <span>AI Learning Tutor</span>
+        </div>
+        <div class="ll-nav-item" data-view="report">
+          <i class="fa-solid fa-file-invoice"></i>
+          <span>Progress Report</span>
+        </div>
+      </div>
+
+      <div class="ll-sidebar-footer">
+        <div class="ll-sidebar-role-indicator">
+          <div class="ll-brand-icon" style="width: 32px; height: 32px; font-size: 0.85rem;"><i class="fa-solid fa-user-graduate"></i></div>
+          <div>
+            <div class="text-xs font-bold text-slate-800">Student Space</div>
+            <div class="text-xs text-slate-400">Semester 5 (Fall)</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Shell -->
+    <div class="ll-main-wrapper">
+      <!-- Topbar -->
+      <header class="ll-topbar">
+        <div class="ll-topbar-left">
+          <button class="ll-sidebar-toggle" title="Toggle Sidebar">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="ll-global-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Search subjects, assignments, quizzes..." />
+          </div>
+        </div>
+
+        <div class="ll-topbar-right">
+          <!-- Quick switch roles helper -->
+          <div class="hidden-mobile">
+            <button class="btn btn-outline btn-sm" onclick="window.learnLensAuth.quickDemoLogin('faculty')">
+              <i class="fa-solid fa-chalkboard-user text-emerald-500"></i> Switch to Faculty
+            </button>
+          </div>
+
+          <!-- Notification Bell -->
+          <button class="ll-icon-btn" title="Notifications" onclick="window.learnLensStudent.renderView('dashboard')">
+            <i class="fa-regular fa-bell"></i>
+            <span class="ll-icon-badge">2</span>
+          </button>
+
+          <!-- Topbar User Profile Container -->
+          <div id="topbar-user-profile"></div>
+        </div>
+      </header>
+
+      <!-- View Container Panes -->
+      <main class="ll-page-container">
+
+        <!-- =============================================================== -->
+        <!-- VIEW 1: STUDENT DASHBOARD -->
+        <!-- =============================================================== -->
+        <section id="view-dashboard" class="ll-view-pane">
+          <!-- Welcome Banner -->
+          <div class="ll-page-header">
+            <div>
+              <h1 class="ll-page-title">
+                Welcome back, <span id="dash-student-name">Alex Rivera</span>! 👋
+              </h1>
+              <p class="ll-page-subtitle" id="dash-student-info">
+                CS2023-0101 • B.Tech in Computer Science & Engineering (CSE-3A)
+              </p>
+            </div>
+            <div>
+              <button class="btn btn-primary" onclick="window.learnLensStudent.renderView('planner')">
+                <i class="fa-solid fa-calendar-plus"></i> Open Study Planner
+              </button>
+            </div>
+          </div>
+
+          <!-- Metrics Grid -->
+          <div class="ll-metrics-grid">
+            <div class="ll-stat-card">
+              <div class="ll-stat-icon-wrapper icon-indigo"><i class="fa-solid fa-award"></i></div>
+              <div class="ll-stat-info">
+                <div class="ll-stat-label">Academic Average</div>
+                <div class="ll-stat-value" id="metric-avg-score">82%</div>
+                <div class="ll-stat-footer text-emerald-600"><i class="fa-solid fa-arrow-trend-up"></i> Top 15% in CSE-3A</div>
+              </div>
+            </div>
+
+            <div class="ll-stat-card">
+              <div class="ll-stat-icon-wrapper icon-sky"><i class="fa-solid fa-calendar-check"></i></div>
+              <div class="ll-stat-info">
+                <div class="ll-stat-label">Institution Attendance</div>
+                <div class="ll-stat-value" id="metric-attendance">86.6%</div>
+                <div class="ll-stat-footer" id="metric-attendance-status"><span class="badge badge-success">Good Standing</span></div>
+              </div>
+            </div>
+
+            <div class="ll-stat-card">
+              <div class="ll-stat-icon-wrapper icon-amber"><i class="fa-solid fa-clock"></i></div>
+              <div class="ll-stat-info">
+                <div class="ll-stat-label">Pending Assignments</div>
+                <div class="ll-stat-value" id="metric-pending-asn">1</div>
+                <div class="ll-stat-footer text-slate-500">Upcoming submission deadline</div>
+              </div>
+            </div>
+
+            <div class="ll-stat-card">
+              <div class="ll-stat-icon-wrapper icon-purple"><i class="fa-solid fa-circle-check"></i></div>
+              <div class="ll-stat-info">
+                <div class="ll-stat-label">Quizzes Completed</div>
+                <div class="ll-stat-value" id="metric-quizzes-taken">3</div>
+                <div class="ll-stat-footer text-indigo-600">Continuous Assessment</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Adaptive Learning Insight Banner -->
+          <div class="mb-4" id="dash-ai-insights"></div>
+
+          <!-- Middle Split: Competency Radar & Recent Announcements -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 1.5rem;">
+            <div class="ll-card">
+              <div class="ll-card-header">
+                <div class="ll-card-title"><i class="fa-solid fa-chart-radar text-indigo-600"></i> Subject Competency Balance</div>
+                <span class="badge badge-info">Fall 2026</span>
+              </div>
+              <div class="ll-card-body" style="height: 320px; position: relative;">
+                <canvas id="dash-competency-chart"></canvas>
+              </div>
+            </div>
+
+            <div class="ll-card">
+              <div class="ll-card-header">
+                <div class="ll-card-title"><i class="fa-solid fa-bullhorn text-indigo-600"></i> Academic Announcements</div>
+                <span class="text-xs text-slate-400">Live Campus Feed</span>
+              </div>
+              <div class="ll-card-body" id="dash-recent-announcements"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- =============================================================== -->
+        <!-- VIEW 2: ACADEMIC PERFORMANCE ANALYZER -->
+        <!-- =============================================================== -->
+        <section id="view-analyzer" class="ll-view-pane" style="display: none;">
+          <div class="ll-page-header">
+            <div>
+              <h1 class="ll-page-title"><i class="fa-solid fa-chart-column text-indigo-600"></i> Academic Performance Analyzer</h1>
+              <p class="ll-page-subtitle">Deep dive into subject-wise marks, examination scores, and historical trajectories.</p>
+            </div>
+            <button class="btn btn-outline" onclick="window.learnLensStudent.renderView('report')">
+              <i class="fa-solid fa-file-arrow-down"></i> View Full Report Card
+            </button>
+          </div>
+
+          <!-- Strongest vs Weakest Subject Highlights -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem;">
+            <div class="ll-stat-card" style="border-left: 4px solid var(--emerald-500);">
+              <div class="ll-stat-icon-wrapper icon-emerald"><i class="fa-solid fa-trophy"></i></div>
+              <div class="ll-stat-info">
+                <div class="ll-stat-label">Strongest Subject</div>
+                <div class="text-base font-bold text-slate-800" id="strongest-subject-name">Full-Stack Web Development</div>
+                <div class="font-mono text-emerald-600 font-bold" id="strongest-subject-score">92% Total</div>
+              </div>
+            </div>
+
+            <div class="ll-stat-card" style="border-left: 4px solid var(--amber-500);">
+              <div class="ll-stat-icon-wrapper icon-amber"><i class="fa-solid fa-crosshairs"></i></div>
+              <div class="ll-stat-info">
+                <div class="ll-stat-label">Primary Growth Focus</div>
+                <div class="text-base font-bold text-slate-800" id="weakest-subject-name">Machine Learning</div>
+                <div class="font-mono text-amber-600 font-bold" id="weakest-subject-score">54% Total</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chart.js Multi-Bar Comparison -->
+          <div class="ll-card mb-4">
+            <div class="ll-card-header">
+              <div class="ll-card-title"><i class="fa-solid fa-chart-simple text-indigo-600"></i> Subject Component Breakdown</div>
+              <span class="text-xs text-slate-400">Midterm vs Quizzes vs Assignments</span>
+            </div>
+            <div class="ll-card-body" style="height: 340px; position: relative;">
+              <canvas id="analyzer-progress-chart"></canvas>
+            </div>
+          </div>
+
+          <!-- Detailed Marks Table -->
+          <div class="ll-card">
+            <div class="ll-card-header">
+              <div class="ll-card-title">Subject Examination & Evaluation Breakdown</div>
+            </div>
+            <div class="ll-table-wrapper">
+              <table class="ll-table">
+                <thead>
+                  <tr>
+                    <th>Subject</th>
+                    <th>Midterm (30%)</th>
+                    <th>Quizzes (20%)</th>
+                    <th>Assignments (25%)</th>
+                    <th>Project (25%)</th>
+                    <th>Total Score</th>
+                    <th>Letter Grade</th>
+                  </tr>
+                </thead>
+                <tbody id="analyzer-marks-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- =============================================================== -->
+        <!-- VIEW 3: LEARNING GAP DETECTOR -->
+        <!-- =============================================================== -->
+        <section id="view-gaps" class="ll-view-pane" style="display: none;">
+          <div class="ll-page-header">
+            <div>
+              <h1 class="ll-page-title"><i class="fa-solid fa-brain text-indigo-600"></i> Smart Learning Gap Detector</h1>
+              <p class="ll-page-subtitle">Rule-based academic analysis identifying conceptual deficits and recommending targeted remediation.</p>
+            </div>
+            <!-- Configurable Threshold Slider -->
+            <div style="background: #FFFFFF; border: 1px solid var(--slate-200); border-radius: var(--radius-md); padding: 0.5rem 1rem; display: flex; align-items: center; gap: 0.75rem;">
+              <span class="text-xs font-bold text-slate-600">Gap Threshold:</span>
+              <input type="range" id="gap-threshold-slider" min="40" max="85" value="65" oninput="window.learnLensStudent.renderLearningGapDetector()" style="accent-color: var(--primary-600); cursor: pointer;" />
+              <span id="gap-threshold-val" class="font-mono font-bold text-indigo-600 text-xs">65%</span>
+            </div>
+          </div>
+
+          <div id="gap-detector-cards-container"></div>
+        </section>
+
+        <!-- =============================================================== -->
+        <!-- VIEW 4: SMART STUDY PLANNER -->
+        <!-- =============================================================== -->
+        <section id="view-planner" class="ll-view-pane" style="display: none;">
+          <div class="ll-page-header">
+            <div>
+              <h1 class="ll-page-title"><i class="fa-solid fa-calendar-check text-indigo-600"></i> Smart Study Planner</h1>
+              <p class="ll-page-subtitle">Organize study activities, prioritize weak subjects, and stay on top of assignment milestones.</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <button class="btn btn-outline" onclick="window.learnLensStudent.autoGenerateSmartPlan()">
+                <i class="fa-solid fa-wand-magic-sparkles text-indigo-600"></i> Auto-Generate Plan
+              </button>
+              <button class="btn btn-primary" onclick="window.learnLensUI.openModal('modal-add-task')">
+                <i class="fa-solid fa-plus"></i> Add Study Task
+              </button>
+            </div>
+          </div>
+
+          <div class="ll-card">
+            <div class="ll-card-header">
+              <div class="ll-card-title">Active Study Schedule & Priorities</div>
+              <span class="badge badge-info">Rule-Based Priority Sorting</span>
+            </div>
+            <div class="ll-card-body" id="planner-tasks-container"></div>
+          </div>
+        </section>
+
+        <!-- =============================================================== -->
+        <!-- VIEW 5: ASSIGNMENT CENTER -->
+        <!-- =============================================================== -->
+        <section id="view-assignments" class="ll-view-pane" style="display: none;">
+          <div class="ll-page-header">
+            <div>
+              <h1 class="ll-page-title"><i class="fa-solid fa-file-lines text-indigo-600"></i> Assignment Center</h1>
+              <p class="ll-page-subtitle">Track course assignments, submit your deliverables, and inspect faculty feedback.</p>
+            </div>
+          </div>
+
+          <div id="assignments-cards-container"></div>
+        </section>
+
+        <!-- =============================================================== -->
+        <!-- VIEW 6: QUIZ AND ASSESSMENT CENTER -->
+        <!-- =============================================================== -->
+        <section id="view-quizzes" class="ll-view-pane" style="display: none;">
+          <!-- Selection View -->
+          <div id="quiz-selection-view">
+            <div class="ll-page-header">
+              <div>
+                <h1 class="ll-page-title"><i class="fa-solid fa-circle-question text-indigo-600"></i> Quiz & Assessment Center</h1>
+                <p class="ll-page-subtitle">Interactive multiple-choice testing with instant feedback, time tracking, and concept reviews.</p>
+              </div>
+            </div>
+
+            <div id="quizzes-list-container"></div>
+
+            <div class="ll-card mt-4">
+              <div class="ll-card-header">
+                <div class="ll-card-title">Assessment History</div>
+              </div>
+              <div class="ll-table-wrapper">
+                <table class="ll-table">
+                  <thead>
+                    <tr>
+                      <th>Quiz Title</th>
+                      <th>Raw Score</th>
+                      <th>Percentage</th>
+                      <th>Date Completed</th>
+                    </tr>
+                  </thead>
+                  <tbody id="quiz-attempts-tbody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Active Quiz Runner View -->
+          <div id="quiz-active-view" class="quiz-runner-container" style="display: none;">
+            <div class="quiz-header-bar">
+              <div>
+                <h3 id="quiz-active-title" style="color: white; font-size: 1.1rem;">Data Structures Assessment</h3>
+                <span id="quiz-q-progress" class="text-xs text-slate-300">Question 1 of 5</span>
+              </div>
+              <div class="quiz-timer-badge">
+                <i class="fa-regular fa-clock"></i>
+                <span id="quiz-timer-display">15:00</span>
+              </div>
+            </div>
+
+            <div class="quiz-question-box">
+              <h4 id="quiz-q-text" class="text-base font-bold text-slate-900 mb-4">Question loading...</h4>
+              <div id="quiz-options-container"></div>
+
+              <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-200">
+                <button id="quiz-prev-btn" class="btn btn-outline" onclick="window.learnLensStudent.prevQuizQuestion()">
+                  <i class="fa-solid fa-arrow-left"></i> Previous
+                </button>
+                <button id="quiz-next-btn" class="btn btn-primary" onclick="window.learnLensStudent.nextQuizQuestion()">
+                  Next Question <i class="fa-solid fa-arrow-right"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quiz Results View -->
+          <div id="quiz-results-view" class="quiz-runner-container" style="display: none;">
+            <div class="ll-card text-center p-6">
+              <h3 class="text-2xl font-bold text-slate-900 mb-1">Assessment Complete!</h3>
+              <p class="text-xs text-slate-500 mb-4">Your performance has been evaluated and recorded to your academic profile.</p>
+
+              <div class="quiz-result-score-circle">
+                <span class="quiz-result-score-number" id="quiz-result-score">4/5</span>
+                <span class="text-xs font-mono font-bold text-primary-600" id="quiz-result-pct">80%</span>
+              </div>
+
+              <div class="text-left mb-4">
+                <h4 class="font-bold text-sm text-slate-800 mb-2">Detailed Question Review & Explanations:</h4>
+                <div id="quiz-questions-review"></div>
+              </div>
+
+              <button class="btn btn-primary" onclick="window.learnLensStudent.exitQuizView()">
+                <i class="fa-solid fa-arrow-left"></i> Return to Quiz Center
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- =============================================================== -->
+        <!-- VIEW 7: ATTENDANCE TRACKER -->
+        <!-- =============================================================== -->
+        <section id="view-attendance" class="ll-view-pane" style="display: none;">
+          <div class="ll-page-header">
+            <div>
+              <h1 class="ll-page-title"><i class="fa-solid fa-user-check text-indigo-600"></i> Attendance Tracker</h1>
+              <p class="ll-page-subtitle">Track subject-wise lecture attendance, compliance, and examination eligibility.</p>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 1.5rem;" class="flex-wrap">
+            <div id="attendance-subjects-container"></div>
+            <div>
+              <div class="ll-card mb-4">
+                <div class="ll-card-header">
+                  <div class="ll-card-title">Overall Attendance Ratio</div>
+                </div>
+                <div class="ll-card-body" style="height: 260px; position: relative;">
+                  <canvas id="attendance-doughnut-chart"></canvas>
+                </div>
+              </div>
+
+              <div class="p-4 bg-indigo-50 border border-indigo-100 rounded-lg text-xs text-indigo-900">
+                <div class="font-bold text-sm mb-1"><i class="fa-solid fa-circle-info"></i> University Attendance Policy</div>
+                <p>A minimum of <strong>75% attendance</strong> is mandatory in each registered subject to qualify for final semester examinations.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- =============================================================== -->
+        <!-- VIEW 8: AI LEARNING ASSISTANT (Tutor Chat) -->
+        <!-- =============================================================== -->
+        <section id="view-ai-assistant" class="ll-view-pane" style="display: none;">
+          <div class="ll-page-header">
+            <div>
+              <h1 class="ll-page-title"><i class="fa-solid fa-robot text-indigo-600"></i> AI Learning Assistant</h1>
+              <p class="ll-page-subtitle">Ask academic questions, clarify tricky algorithmic proofs, and practice exam concepts.</p>
+            </div>
+            <span class="badge badge-info">Rule-Based Local Cognitive Engine</span>
+          </div>
+
+          <div class="ai-chat-card">
+            <div class="ai-chat-header">
+              <div class="flex items-center gap-2">
+                <div class="ll-brand-icon" style="width: 32px; height: 32px; font-size: 0.9rem;"><i class="fa-solid fa-brain"></i></div>
+                <div>
+                  <div class="font-bold text-sm">LearnLens Academic Tutor</div>
+                  <div class="text-xs text-indigo-200">Offline Curriculum Knowledge Base Active</div>
+                </div>
+              </div>
+              <span class="ai-engine-pill">v1.2 Cognitive Model</span>
+            </div>
+
+            <!-- Messages Area -->
+            <div class="ai-chat-messages" id="ai-chat-messages">
+              <div class="chat-bubble ai">
+                <div class="chat-bubble-avatar"><i class="fa-solid fa-robot"></i></div>
+                <div class="chat-bubble-content">
+                  Hello Alex! I am your <strong>LearnLens Academic Assistant</strong>. I am synced with your 5 enrolled subjects:
+                  <em>DSA, DBMS, Full-Stack Web Development, Machine Learning, and Computer Networks</em>.<br><br>
+                  I noticed you have an active learning gap in <strong>Machine Learning (Gradient Descent & Regularization)</strong>. How can I help you understand these concepts today?
+                </div>
+              </div>
+            </div>
+
+            <!-- Quick Suggestions -->
+            <div class="ai-chat-quick-prompts">
+              <button class="quick-prompt-btn" onclick="window.learnLensStudent.askQuickPrompt('Explain the Big-O time complexity of QuickSort')">
+                <i class="fa-solid fa-bolt text-amber-500"></i> QuickSort Big-O
+              </button>
+              <button class="quick-prompt-btn" onclick="window.learnLensStudent.askQuickPrompt('What is Third Normal Form (3NF) in DBMS?')">
+                <i class="fa-solid fa-database text-indigo-500"></i> 3NF Normalization
+              </button>
+              <button class="quick-prompt-btn" onclick="window.learnLensStudent.askQuickPrompt('How does the JavaScript Event Loop work?')">
+                <i class="fa-brands fa-js text-emerald-500"></i> JS Event Loop
+              </button>
+              <button class="quick-prompt-btn" onclick="window.learnLensStudent.askQuickPrompt('Explain Gradient Descent in Machine Learning')">
+                <i class="fa-solid fa-chart-line text-rose-500"></i> Gradient Descent
+              </button>
+            </div>
+
+            <!-- Input Bar -->
+            <div class="ai-chat-input-bar">
+              <input type="text" id="ai-chat-input" class="ai-chat-input" placeholder="Ask any academic or syllabus question..." />
+              <button id="ai-chat-send-btn" class="btn btn-primary" style="border-radius: var(--radius-full); width: 44px; height: 44px; padding: 0;">
+                <i class="fa-solid fa-paper-plane"></i>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- =============================================================== -->
+        <!-- VIEW 9: PROGRESS REPORT CARD -->
+        <!-- =============================================================== -->
+        <section id="view-report" class="ll-view-pane" style="display: none;">
+          <div class="ll-page-header no-print">
+            <div>
+              <h1 class="ll-page-title"><i class="fa-solid fa-file-invoice text-indigo-600"></i> Official Academic Progress Report</h1>
+              <p class="ll-page-subtitle">Comparative semester trajectory, mastery benchmarks, and institutional accreditation sheet.</p>
+            </div>
+            <button class="btn btn-primary" onclick="window.learnLensStudent.printReport()">
+              <i class="fa-solid fa-print"></i> Print Official Report Card
+            </button>
+          </div>
+
+          <div class="report-sheet">
+            <div class="report-header-banner">
+              <div>
+                <h2 style="font-size: 1.6rem; font-weight: 800; color: var(--slate-900);">LearnLens Institute of Technology & Science</h2>
+                <p class="text-xs text-slate-500">Academic Progress & Continuous Evaluation Transcript • Fall Semester 2026</p>
+              </div>
+              <div class="text-right">
+                <span class="badge badge-primary font-mono">STATUS: ACCREDITED</span>
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; background: var(--slate-50); padding: 1rem; border-radius: var(--radius-md);">
+              <div>
+                <span class="text-xs text-slate-400">Student Name:</span>
+                <div class="font-bold text-slate-800" id="report-student-name">Alex Rivera</div>
+              </div>
+              <div>
+                <span class="text-xs text-slate-400">Roll Number:</span>
+                <div class="font-mono font-bold text-slate-800" id="report-roll-no">CS2023-0101</div>
+              </div>
+              <div>
+                <span class="text-xs text-slate-400">Degree & Branch:</span>
+                <div class="text-xs font-semibold text-slate-700" id="report-course">B.Tech Computer Science</div>
+              </div>
+              <div>
+                <span class="text-xs text-slate-400">Semester Trajectory:</span>
+                <div class="text-xs">
+                  <span id="report-prev-sem-avg">74%</span> → <span id="report-curr-sem-avg" class="font-bold">82%</span>
+                  (<span id="report-delta-display" class="text-emerald-600 font-bold">+8%</span>)
+                </div>
+              </div>
+            </div>
+
+            <h4 class="font-bold text-base text-slate-800 mb-2">Subject Performance & Progression Comparison</h4>
+            <div class="ll-table-wrapper mb-4">
+              <table class="ll-table">
+                <thead>
+                  <tr>
+                    <th>Subject Code & Title</th>
+                    <th>Previous Sem Benchmark</th>
+                    <th>Current Total</th>
+                    <th>Net Gain / Deficit</th>
+                    <th>Progression Trajectory</th>
+                  </tr>
+                </thead>
+                <tbody id="report-comparison-tbody"></tbody>
+              </table>
+            </div>
+
+            <div class="p-4 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-600">
+              <strong>System Recommendations:</strong> Student demonstrates consistent growth in practical Web Development and Algorithms. Targeted mentoring intervention in Machine Learning optimization is actively in progress.
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD STUDY TASK -->
+  <div id="modal-add-task" class="ll-modal-overlay">
+    <div class="ll-modal-dialog">
+      <div class="ll-modal-header">
+        <h3 class="font-bold text-base">Schedule New Study Activity</h3>
+        <button class="ll-modal-close" onclick="window.learnLensUI.closeModal('modal-add-task')">&times;</button>
+      </div>
+      <form id="form-add-task" onsubmit="event.preventDefault(); window.learnLensStudent.saveNewTaskFromModal();">
+        <div class="ll-modal-body">
+          <div class="form-group">
+            <label class="form-label">Task Title / Concept Goal</label>
+            <input type="text" id="planner-task-title" class="form-control" placeholder="e.g. Practice AVL Tree rotations" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Associated Subject</label>
+            <select id="planner-modal-subject" class="form-control form-select"></select>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label">Target Due Date</label>
+              <input type="date" id="planner-task-due" class="form-control" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Priority Level</label>
+              <select id="planner-task-priority" class="form-control form-select">
+                <option value="High">High Priority</option>
+                <option value="Medium" selected>Medium Priority</option>
+                <option value="Low">Low Priority</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Study Notes (Optional)</label>
+            <textarea id="planner-task-notes" class="form-control" rows="2" placeholder="Specific problems, lecture slides, or references..."></textarea>
+          </div>
+        </div>
+        <div class="ll-modal-footer">
+          <button type="button" class="btn btn-outline" onclick="window.learnLensUI.closeModal('modal-add-task')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Schedule Task</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: SUBMIT ASSIGNMENT -->
+  <div id="modal-submit-assignment" class="ll-modal-overlay">
+    <div class="ll-modal-dialog">
+      <div class="ll-modal-header">
+        <div>
+          <h3 class="font-bold text-base">Submit Assignment Deliverable</h3>
+          <p class="text-xs text-slate-400" id="submit-modal-asn-title">Assignment Title</p>
+        </div>
+        <button class="ll-modal-close" onclick="window.learnLensUI.closeModal('modal-submit-assignment')">&times;</button>
+      </div>
+      <form id="form-submit-assignment" onsubmit="event.preventDefault(); window.learnLensStudent.submitAssignmentFromModal();">
+        <input type="hidden" id="submit-modal-asn-id" />
+        <div class="ll-modal-body">
+          <div class="form-group">
+            <label class="form-label">Solution Notes / Repository URL / Implementation Summary</label>
+            <textarea id="submit-modal-text" class="form-control" rows="4" placeholder="Provide GitHub repo URL, algorithm summary, or execution instructions..." required></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Attach File (PDF, ZIP, IPYNB)</label>
+            <input type="file" id="submit-modal-file" class="form-control" />
+            <p class="text-xs text-slate-400 mt-1">Simulated document attachment stored in your LocalStorage state.</p>
+          </div>
+        </div>
+        <div class="ll-modal-footer">
+          <button type="button" class="btn btn-outline" onclick="window.learnLensUI.closeModal('modal-submit-assignment')">Cancel</button>
+          <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-arrow-up-from-bracket"></i> Confirm Submission
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/analytics.js"></script>
+  <script src="js/student.js"></script>
+</body>
+</html>

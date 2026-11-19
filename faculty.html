@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Faculty Portal – LearnLens Smart Academic Management</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/faculty.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <div class="ll-app-layout">
+    <div class="ll-sidebar-backdrop"></div>
+
+    <!-- Collapsible Sidebar -->
+    <aside class="ll-sidebar">
+      <div class="ll-sidebar-brand">
+        <a href="faculty.html" class="ll-brand-link">
+          <div class="ll-brand-icon" style="background: linear-gradient(135deg, #10B981, #059669);"><i class="fa-solid fa-chalkboard-user"></i></div>
+          <div class="ll-brand-text">LearnLens</div>
+        </a>
+      </div>
+
+      <div class="ll-sidebar-nav">
+        <div class="ll-nav-section-title">TEACHING & INSTRUCTION</div>
+        <div class="ll-nav-item active" data-view="dashboard">
+          <i class="fa-solid fa-gauge-high"></i>
+          <span>Dashboard</span>
+        </div>
+        <div class="ll-nav-item" data-view="students">
+          <i class="fa-solid fa-users"></i>
+          <span>Student Management</span>
+        </div>
+        <div class="ll-nav-item" data-view="attendance">
+          <i class="fa-solid fa-clipboard-user"></i>
+          <span>Attendance Matrix</span>
+        </div>
+        <div class="ll-nav-item" data-view="assignments">
+          <i class="fa-solid fa-file-signature"></i>
+          <span>Assignment Evaluation</span>
+        </div>
+        <div class="ll-nav-item" data-view="quizzes">
+          <i class="fa-solid fa-circle-question"></i>
+          <span>Quiz Management</span>
+        </div>
+
+        <div class="ll-nav-section-title">INTELLIGENCE & MENTORING</div>
+        <div class="ll-nav-item" data-view="gap-analytics">
+          <i class="fa-solid fa-brain"></i>
+          <span>Learning Gap Analytics</span>
+          <span class="badge badge-warning ll-nav-badge">AI</span>
+        </div>
+        <div class="ll-nav-item" data-view="warnings">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          <span>Early Warning System</span>
+          <span class="badge badge-danger ll-nav-badge">Alert</span>
+        </div>
+        <div class="ll-nav-item" data-view="interventions">
+          <i class="fa-solid fa-heart-pulse"></i>
+          <span>Intervention Tracker</span>
+        </div>
+        <div class="ll-nav-item" data-view="announcements">
+          <i class="fa-solid fa-bullhorn"></i>
+          <span>Class Announcements</span>
+        </div>
+      </div>
+
+      <div class="ll-sidebar-footer">
+        <div class="ll-sidebar-role-indicator">
+          <div class="ll-brand-icon" style="width: 32px; height: 32px; font-size: 0.85rem; background: var(--emerald-500);"><i class="fa-solid fa-chalkboard-user"></i></div>
+          <div>
+            <div class="text-xs font-bold text-slate-800">Faculty Space</div>
+            <div class="text-xs text-slate-400">Department of CSE</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Wrapper -->
+    <div class="ll-main-wrapper">
+      <header class="ll-topbar">
+        <div class="ll-topbar-left">
+          <button class="ll-sidebar-toggle" title="Toggle Sidebar">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="ll-global-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Search assigned students, submissions..." />
+          </div>
+        </div>
+
+        <div class="ll-topbar-right">
+          <div class="hidden-mobile">
+            <button class="btn btn-outline btn-sm" onclick="window.learnLensAuth.quickDemoLogin('student')">
+              <i class="fa-solid fa-graduation-cap text-indigo-500"></i> Switch to Student
+            </button>
+          </div>
+
+          <button class="ll-icon-btn" title="Academic Alerts" onclick="window.learnLensFaculty.renderView('warnings')">
+            <i class="fa-solid fa-bell"></i>
+            <span class="ll-icon-badge">3</span>
+          </button>
+
+          <div id="topbar-user-profile"></div>
+        </div>
+      </header>
+
+      <!-- View Panes -->
+      <main class="ll-page-container">
+
+        <!-- =============================================================== -->
+        <!-- VIEW 1: FACULTY DASHBOARD -->
+        <!-- =============================================================== -->
+        <section id="view-dashboard" class="ll-view-pane">
+          <div class="ll-page-header">
+            <div>
+              <h1 class="ll-page-title">
+                Welcome, <span id="dash-faculty-name">Dr. Robert Vance</span> 👋
+              </h1>
+              <p class="ll-page-subtitle" id="dash-faculty-meta">
+                Professor & Head of Computer Science & Engineering
+              </p>
+            </div>
+            <div class="flex items-center gap-2">
+              <button class="btn btn-primary" onclick="window.learnLensFaculty.openCreateAssignmentModal()">
+                <i class="fa-solid fa-plus"></i> Create Assignment
+              </button>
+            </div>
+          </div>
+
+          <!-- Quick Teaching Scope Info -->
+          <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg mb-4 flex items-center justify-between flex-wrap gap-2 text-xs">
+            <div>
+              <span class="text-slate-400 font-semibold uppercase">Assigned Subjects:</span>
+              <strong class="text-slate-800 ml-1" id="dash-assigned-subjects">Data Structures & Algorithms, Machine Learning</strong>
+            </div>
+            <div>
+              <span class="text-slate-400 font-semibold uppercase">Assigned Classes:</span>
+              <strong class="text-indigo-600 ml-1" id="dash-assigned-classes">CSE-3A, CSE-3B, DSAI-3A</strong>
+            </div>
+          </div>
+
+          <!-- Metric Tiles -->
+          <div class="ll-metrics-grid">
+            <div class="ll-stat-card">
+              <div class="ll-stat-icon-wrapper icon-indigo"><i class="fa-solid fa-users"></i></div>
+              <div class="ll-stat-info">
+                <div class="ll-stat-label">Assigned Students</div>
+                <div class="ll-stat-value" id="metric-total-students">10</div>
+                <div class="ll-stat-footer text-slate-500">Across 3 class sections</div>
+              </div>
+            </div>
+
+            <div class="ll-stat-card">
+              <div class="ll-stat-icon-wrapper icon-amber"><i class="fa-solid fa-file-signature"></i></div>
+              <div class="ll-stat-info">
+                <div class="ll-stat-label">Pending Evaluations</div>
+                <div class="ll-stat-value" id="metric-pending-evaluations">2</div>
+                <div class="ll-stat-footer text-amber-600"><i class="fa-solid fa-clock"></i> Submissions awaiting grading</div>
+              </div>
+            </div>
+
+            <div class="ll-stat-card">
+              <div class="ll-stat-icon-wrapper icon-emerald"><i class="fa-solid fa-chart-line"></i></div>
+              <div class="ll-stat-info">
+                <div class="ll-stat-label">Average Class Score</div>
+                <div class="ll-stat-value" id="metric-class-avg">78%</div>
+                <div class="ll-stat-footer text-emerald-600">Calculated over assignments & exams</div>
+              </div>
+            </div>
+
+            <div class="ll-stat-card">
+              <div class="ll-stat-icon-wrapper icon-rose"><i class="fa-solid fa-triangle-exclamation"></i></div>
+              <div class="ll-stat-info">
+                <div class="ll-stat-label">Students Needing Support</div>
+                <div class="ll-stat-value" id="metric-students-at-risk">3</div>
+                <div class="ll-stat-footer text-rose-600">Early Warning Triggered</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Middle Split: Class Performance Chart & Pending Grading Queue -->
+          <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 1.5rem;" class="flex-wrap">
+            <div class="ll-card">
+              <div class="ll-card-header">
+                <div class="ll-card-title"><i class="fa-solid fa-chart-simple text-indigo-600"></i> Subject Average Scores & Pass Rates</div>
+                <span class="badge badge-info">Fall 2026</span>
+              </div>
+              <div class="ll-card-body" style="height: 320px; position: relative;">
+                <canvas id="faculty-class-chart"></canvas>
+              </div>
+            </div>
+
+            <div class="ll-card">
+              <div class="ll-card-header">
+                <div class="ll-card-title"><i class="fa-solid fa-clock-rotate-left text-amber-500"></i> Pending Submissions</div>
+                <span class="badge badge-warning">Needs Grading</span>
+              </div>
+              <div class="ll-card-body" id="dash-pending-evals-list"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- =============================================================== -->
+        <!-- VIEW 2: STUDENT MANAGEMENT -->
+        <!-- =============================================================== -->
+        <section id="view-students" class="ll-view-pane" style="display: none;">
+          <div class="ll-page-header">
+            <div>
+              <h1 class="ll-page-title"><i class="fa-solid fa-users text-indigo-600"></i> Assigned Student Management</h1>
+              <p class="ll-page-subtitle">Inspect individual student academic profiles, attendance standing, and mentoring records.</p>
+            </div>
+          </div>
+
+          <!-- Filters Bar -->
+          <div class="attendance-toolbar">
+            <div class="attendance-filters">
+              <div class="ll-global-search" style="width: 250px;">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="faculty-student-search" placeholder="Search by name or roll..." oninput="window.learnLensFaculty.renderStudentManagement()" />
+              </div>
+              <select id="faculty-class-filter" class="form-control form-select" style="width: 160px;" onchange="window.learnLensFaculty.renderStudentManagement()">
+                <option value="ALL">All Classes</option>
+                <option value="CSE-3A">CSE-3A</option>
+                <option value="CSE-3B">CSE-3B</option>
+                <option value="IT-3A">IT-3A</option>
+                <option value="DSAI-3A">DSAI-3A</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Student Roster Table -->
+          <div class="ll-card">
+            <div class="ll-table-wrapper">
+              <table class="ll-table">
+                <thead>
+                  <tr>
+                    <th>Student Name & Roll</th>
+                    <th>Section</th>
+                    <th>Enrolled Degree</th>
+                    <th>GPA / Average</th>
+                    <th>Attendance %</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="faculty-students-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- =============================================================== -->
+        <!-- VIEW 3: ATTENDANCE MANAGEMENT MATRIX -->
+        <!-- =============================================================== -->
+        <section id="view-attendance" class="ll-view-pane" style="display: none;">
+          <div class="ll-page-header">
+            <div>
+              <h1 class="ll-page-title"><i class="fa-solid fa-clipboard-user text-indigo-600"></i> Daily Attendance Matrix</h1>
+              <p class="ll-page-subtitle">Select your subject and section to mark student attendance. Updates student percentages in real-time.</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <button class="btn btn-outline" onclick="window.learnLensFaculty.markAllPresent()">
+                <i class="fa-solid fa-check-double text-emerald-600"></i> Mark All Present
+              </button>
+              <button class="btn btn-success" onclick="window.learnLensFaculty.saveAttendance()">
+                <i class="fa-solid fa-floppy-disk"></i> Save Attendance Records
+              </button>
+            </div>
+          </div>
+
+          <div class="attendance-toolbar">
+            <div class="attendance-filters">
+              <div>
+                <label class="text-xs font-bold text-slate-500 block mb-1">Subject:</label>
+                <select id="att-mgmt-subject" class="form-control form-select" style="min-width: 220px;" onchange="window.learnLensFaculty.renderAttendanceManagement()"></select>
+              </div>
+              <div>
+                <label class="text-xs font-bold text-slate-500 block mb-1">Class Section:</label>
+                <select id="att-mgmt-class" class="form-control form-select" style="min-width: 140px;" onchange="window.learnLensFaculty.renderAttendanceManagement()"></select>
+              </div>
+              <div>
+                <label class="text-xs font-bold text-slate-500 block mb-1">Lecture Date:</label>
+                <input type="date" id="att-mgmt-date" class="form-control" />
+              </div>
+            </div>
+          </div>
+
+          <div class="ll-card">
+            <div class="ll-table-wrapper">
+              <table class="ll-table">
+                <thead>
+                  <tr>
+                    <th style="width: 50px;" class="text-center">#</th>
+                    <th>Student Name</th>
+                    <th>Roll Number</th>
+                    <th>Attendance Status</th>
+                  </tr>
+                </thead>
+                <tbody id="att-mgmt-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- =============================================================== -->
+        <!-- VIEW 4: ASSIGNMENT MANAGEMENT & GRADING -->
+        <!-- =============================================================== -->
+        <section id="view-assignments" class="ll-view-pane" style="display: none;">
+          <div class="ll-page-header">
+            <div>
+              <h1 class="ll-page-title"><i class="fa-solid fa-file-signature text-indigo-600"></i> Assignment Management & Evaluation</h1>
+              <p class="ll-page-subtitle">Create coursework assignments and evaluate submitted student projects with feedback.</p>
+            </div>
+            <button class="btn btn-primary" onclick="window.learnLensFaculty.openCreateAssignmentModal()">
+              <i class="fa-solid fa-plus"></i> Create New Assignment
+            </button>
+          </div>
+
+          <h3 class="font-bold text-base text-slate-800 mb-3">Published Assignments</h3>
+          <div id="faculty-assignments-list"></div>
+
+          <h3 class="font-bold text-base text-slate-800 mt-6 mb-3">Student Submissions Queue</h3>
+          <div class="ll-card">
+            <div class="ll-table-wrapper">
+              <table class="ll-table">
+                <thead>
+                  <tr>
+                    <th>Student Name</th>
+                    <th>Assignment</th>
+                    <th>Submission Date</th>
+                    <th>Status</th>
+                    <th>Marks</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="faculty-submissions-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- =============================================================== -->
+        <!-- VIEW 5: QUIZ MANAGEMENT -->
+        <!-- =============================================================== -->
+        <section id="view-quizzes" class="ll-view-pane" style="display: none;">
+          <div class="ll-page-header">
+            <div>
+              <h1 class="ll-page-title"><i class="fa-solid fa-circle-question text-indigo-600"></i> Quiz & Assessment Creator</h1>
+              <p class="ll-page-subtitle">Design multiple-choice assessments with automated grading and instant question explanations.</p>
+            </div>
+            <button class="btn btn-primary" onclick="window.learnLensFaculty.openCreateQuizModal()">
+              <i class="fa-solid fa-plus"></i> Create Assessment Quiz
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="faculty-quizzes-grid"></div>
+        </section>
+
+        <!-- =============================================================== -->
+        <!-- VIEW 6: LEARNING GAP ANALYTICS -->
+        <!-- =============================================================== -->
+        <section id="view-gap-analytics" class="ll-view-pane" style="display: none;">
+          <div class="ll-page-header">
+            <div>
+              <h1 class="ll-page-title"><i class="fa-solid fa-brain text-indigo-600"></i> Class-Wide Learning Gap Analytics</h1>
+              <p class="ll-page-subtitle">Algorithmic analysis flagging students who scored below 65% in course concepts.</p>
+            </div>
+          </div>
+
+          <div id="faculty-gap-cards-container"></div>
+        </section>
+
+        <!-- =============================================================== -->
+        <!-- VIEW 7: EARLY ACADEMIC WARNING SYSTEM -->
+        <!-- =============================================================== -->
+        <section id="view-warnings" class="ll-view-pane" style="display: none;">
+          <div class="ll-page-header">
+            <div>
+              <h1 class="ll-page-title"><i class="fa-solid fa-triangle-exclamation text-rose-500"></i> Early Academic Warning System</h1>
+              <p class="ll-page-subtitle">Configurable multi-criteria alert engine: marks &lt; 40%, attendance &lt; 75%, or missing assignments.</p>
+            </div>
+          </div>
+
+          <div class="ll-card">
+            <div class="ll-table-wrapper">
+              <table class="ll-table">
+                <thead>
+                  <tr>
+                    <th>Severity</th>
+                    <th>Student Name</th>
+                    <th>Alert Type</th>
+                    <th>Identified Deficit Triggers</th>
+                    <th>Faculty Review</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="faculty-alerts-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- =============================================================== -->
+        <!-- VIEW 8: FACULTY INTERVENTION TRACKER -->
+        <!-- =============================================================== -->
+        <section id="view-interventions" class="ll-view-pane" style="display: none;">
+          <div class="ll-page-header">
+            <div>
+              <h1 class="ll-page-title"><i class="fa-solid fa-heart-pulse text-indigo-600"></i> Faculty Intervention Tracker</h1>
+              <p class="ll-page-subtitle">Monitor academic guidance impact. Tracks student score improvement (Impact Delta) post-intervention.</p>
+            </div>
+          </div>
+
+          <div id="faculty-interventions-container"></div>
+        </section>
+
+        <!-- =============================================================== -->
+        <!-- VIEW 9: ANNOUNCEMENTS -->
+        <!-- =============================================================== -->
+        <section id="view-announcements" class="ll-view-pane" style="display: none;">
+          <div class="ll-page-header">
+            <div>
+              <h1 class="ll-page-title"><i class="fa-solid fa-bullhorn text-indigo-600"></i> Class Announcements</h1>
+              <p class="ll-page-subtitle">Publish announcements for your assigned classes that appear directly on students' dashboards.</p>
+            </div>
+            <button class="btn btn-primary" onclick="window.learnLensUI.openModal('modal-post-announcement')">
+              <i class="fa-solid fa-plus"></i> Post Class Announcement
+            </button>
+          </div>
+
+          <div id="faculty-announcements-container"></div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- MODAL: CREATE ASSIGNMENT -->
+  <div id="modal-create-assignment" class="ll-modal-overlay">
+    <div class="ll-modal-dialog">
+      <div class="ll-modal-header">
+        <h3 class="font-bold text-base">Create & Publish Coursework Assignment</h3>
+        <button class="ll-modal-close" onclick="window.learnLensUI.closeModal('modal-create-assignment')">&times;</button>
+      </div>
+      <form id="form-create-assignment" onsubmit="event.preventDefault(); window.learnLensFaculty.saveAssignmentFromModal();">
+        <div class="ll-modal-body">
+          <div class="form-group">
+            <label class="form-label">Assignment Title</label>
+            <input type="text" id="create-asn-title" class="form-control" placeholder="e.g. Graph Traversals & Minimum Spanning Trees" required />
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label">Subject</label>
+              <select id="create-asn-subject" class="form-control form-select"></select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Target Class Section</label>
+              <select id="create-asn-class" class="form-control form-select">
+                <option value="CSE-3A">CSE-3A</option>
+                <option value="CSE-3B">CSE-3B</option>
+                <option value="All">All Sections</option>
+              </select>
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label">Submission Deadline</label>
+              <input type="datetime-local" id="create-asn-deadline" class="form-control" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Maximum Points</label>
+              <input type="number" id="create-asn-marks" class="form-control" value="100" min="10" max="100" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Description & Instructions</label>
+            <textarea id="create-asn-desc" class="form-control" rows="3" placeholder="Provide problem statement, rubrics, and deliverable guidelines..." required></textarea>
+          </div>
+        </div>
+        <div class="ll-modal-footer">
+          <button type="button" class="btn btn-outline" onclick="window.learnLensUI.closeModal('modal-create-assignment')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Publish Assignment</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: GRADE SUBMISSION -->
+  <div id="modal-grade-submission" class="ll-modal-overlay">
+    <div class="ll-modal-dialog">
+      <div class="ll-modal-header">
+        <div>
+          <h3 class="font-bold text-base">Evaluate Student Submission</h3>
+          <p class="text-xs text-slate-400">Student: <span id="grade-modal-student" class="font-semibold text-slate-800"></span></p>
+        </div>
+        <button class="ll-modal-close" onclick="window.learnLensUI.closeModal('modal-grade-submission')">&times;</button>
+      </div>
+      <form id="form-grade-submission" onsubmit="event.preventDefault(); window.learnLensFaculty.submitGradeFromModal();">
+        <input type="hidden" id="grade-modal-sub-id" />
+        <div class="ll-modal-body">
+          <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg mb-3">
+            <div class="text-xs font-bold text-slate-500 uppercase mb-1">Assignment Deliverable:</div>
+            <p class="text-xs font-semibold text-slate-800" id="grade-modal-asn-title"></p>
+            <div class="text-xs text-slate-600 mt-2 font-mono whitespace-pre-wrap p-2 bg-white rounded border border-slate-200" id="grade-modal-text-content"></div>
+            <div class="text-xs text-indigo-600 mt-2 font-semibold">
+              <i class="fa-solid fa-paperclip"></i> Attached File: <code id="grade-modal-file-link"></code>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Marks Awarded (Out of <span id="grade-modal-max-points">100</span>)</label>
+            <input type="number" id="grade-modal-marks" class="form-control" min="0" max="100" placeholder="e.g. 88" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Faculty Feedback & Improvement Recommendations</label>
+            <textarea id="grade-modal-feedback" class="form-control" rows="3" placeholder="Provide constructive feedback, notes on edge cases, and areas of improvement..."></textarea>
+          </div>
+        </div>
+        <div class="ll-modal-footer">
+          <button type="button" class="btn btn-outline" onclick="window.learnLensUI.closeModal('modal-grade-submission')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Grade & Feedback</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: LOG MENTORING INTERVENTION -->
+  <div id="modal-log-mentoring" class="ll-modal-overlay">
+    <div class="ll-modal-dialog">
+      <div class="ll-modal-header">
+        <div>
+          <h3 class="font-bold text-base">Log Academic Mentoring Session</h3>
+          <p class="text-xs text-slate-400">Student: <span id="mentor-student-name" class="font-semibold text-slate-800"></span></p>
+        </div>
+        <button class="ll-modal-close" onclick="window.learnLensUI.closeModal('modal-log-mentoring')">&times;</button>
+      </div>
+      <form id="form-log-mentoring" onsubmit="event.preventDefault(); window.learnLensFaculty.saveMentoringFromModal();">
+        <input type="hidden" id="mentor-student-id" />
+        <div class="ll-modal-body">
+          <div class="form-group">
+            <label class="form-label">Subject with Learning Deficit</label>
+            <select id="mentor-subject-id" class="form-control form-select"></select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Identified Conceptual Challenge</label>
+            <textarea id="mentor-diagnosis" class="form-control" rows="2" placeholder="e.g. Student confused about balancing AVL trees during deletion..." required></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Intervention Actions & Prescribed Practice</label>
+            <textarea id="mentor-actions" class="form-control" rows="2" placeholder="e.g. Walked through recursion call stacks; assigned 3 practice problems on LeetCode..." required></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Target Follow-Up Date</label>
+            <input type="date" id="mentor-followup" class="form-control" />
+          </div>
+        </div>
+        <div class="ll-modal-footer">
+          <button type="button" class="btn btn-outline" onclick="window.learnLensUI.closeModal('modal-log-mentoring')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Record Intervention</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: UPDATE INTERVENTION OUTCOME -->
+  <div id="modal-update-outcome" class="ll-modal-overlay">
+    <div class="ll-modal-dialog">
+      <div class="ll-modal-header">
+        <div>
+          <h3 class="font-bold text-base">Record Intervention Outcome</h3>
+          <p class="text-xs text-slate-400">Student: <span id="outcome-modal-student" class="font-semibold text-slate-800"></span></p>
+        </div>
+        <button class="ll-modal-close" onclick="window.learnLensUI.closeModal('modal-update-outcome')">&times;</button>
+      </div>
+      <form id="form-update-outcome" onsubmit="event.preventDefault(); window.learnLensFaculty.saveOutcomeFromModal();">
+        <input type="hidden" id="outcome-modal-id" />
+        <div class="ll-modal-body">
+          <div class="p-3 bg-slate-50 rounded-lg mb-3 text-xs text-slate-600">
+            Pre-Intervention Score Benchmark: <strong id="outcome-modal-pre-score"></strong>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Post-Intervention Score (%)</label>
+            <input type="number" id="outcome-modal-post-score" class="form-control" min="0" max="100" placeholder="e.g. 74" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Resolution Status</label>
+            <select id="outcome-modal-status" class="form-control form-select">
+              <option value="Successful">Successful (Target Attained)</option>
+              <option value="In Progress">In Progress (Further Monitoring)</option>
+              <option value="Escalated">Escalated to Academic Dean</option>
+            </select>
+          </div>
+        </div>
+        <div class="ll-modal-footer">
+          <button type="button" class="btn btn-outline" onclick="window.learnLensUI.closeModal('modal-update-outcome')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Update Outcome</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: CREATE QUIZ -->
+  <div id="modal-create-quiz" class="ll-modal-overlay">
+    <div class="ll-modal-dialog modal-lg">
+      <div class="ll-modal-header">
+        <h3 class="font-bold text-base">Create Assessment Quiz</h3>
+        <button class="ll-modal-close" onclick="window.learnLensUI.closeModal('modal-create-quiz')">&times;</button>
+      </div>
+      <form id="form-create-quiz" onsubmit="event.preventDefault(); window.learnLensFaculty.saveQuizFromModal();">
+        <div class="ll-modal-body">
+          <div style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 1rem;" class="mb-3">
+            <div class="form-group mb-0">
+              <label class="form-label">Quiz Title</label>
+              <input type="text" id="create-quiz-title" class="form-control" placeholder="e.g. Binary Search Trees & Heaps Quiz" required />
+            </div>
+            <div class="form-group mb-0">
+              <label class="form-label">Subject</label>
+              <select id="create-quiz-subject" class="form-control form-select"></select>
+            </div>
+            <div class="form-group mb-0">
+              <label class="form-label">Time Limit (Mins)</label>
+              <input type="number" id="create-quiz-time" class="form-control" value="15" min="5" max="60" required />
+            </div>
+          </div>
+
+          <div class="question-builder-item">
+            <div class="question-builder-header">
+              <span class="font-bold text-xs text-slate-700">Question 1</span>
+              <span class="text-xs text-slate-400">Select radio for correct answer</span>
+            </div>
+            <div class="form-group">
+              <input type="text" id="q1-text" class="form-control" placeholder="Enter question prompt..." required />
+            </div>
+
+            <div class="option-builder-row">
+              <label class="correct-radio-label">
+                <input type="radio" name="q1-correct" value="0" checked /> A:
+              </label>
+              <input type="text" id="q1-opt0" class="form-control" placeholder="Option A" required />
+            </div>
+            <div class="option-builder-row">
+              <label class="correct-radio-label">
+                <input type="radio" name="q1-correct" value="1" /> B:
+              </label>
+              <input type="text" id="q1-opt1" class="form-control" placeholder="Option B" required />
+            </div>
+            <div class="option-builder-row">
+              <label class="correct-radio-label">
+                <input type="radio" name="q1-correct" value="2" /> C:
+              </label>
+              <input type="text" id="q1-opt2" class="form-control" placeholder="Option C" />
+            </div>
+            <div class="option-builder-row">
+              <label class="correct-radio-label">
+                <input type="radio" name="q1-correct" value="3" /> D:
+              </label>
+              <input type="text" id="q1-opt3" class="form-control" placeholder="Option D" />
+            </div>
+
+            <div class="form-group mt-2">
+              <label class="form-label text-xs">Explanation of Correct Answer</label>
+              <input type="text" id="q1-explanation" class="form-control" placeholder="Why this option is correct..." />
+            </div>
+          </div>
+        </div>
+        <div class="ll-modal-footer">
+          <button type="button" class="btn btn-outline" onclick="window.learnLensUI.closeModal('modal-create-quiz')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Assessment</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: STUDENT 360 PROFILE -->
+  <div id="modal-student-360" class="ll-modal-overlay">
+    <div class="ll-modal-dialog modal-lg">
+      <div class="ll-modal-header">
+        <h3 class="font-bold text-base">Student 360° Academic Record</h3>
+        <button class="ll-modal-close" onclick="window.learnLensUI.closeModal('modal-student-360')">&times;</button>
+      </div>
+      <div class="ll-modal-body">
+        <div class="student-360-header">
+          <img id="modal-360-avatar" class="student-360-avatar" />
+          <div>
+            <h2 id="modal-360-name" class="font-bold text-lg text-slate-900"></h2>
+            <div id="modal-360-roll" class="font-mono text-xs text-indigo-600 font-semibold"></div>
+            <div id="modal-360-dept" class="text-xs text-slate-500"></div>
+          </div>
+          <div class="ml-auto text-right">
+            <span class="text-xs text-slate-400">Cumulative GPA:</span>
+            <div id="modal-360-gpa" class="font-mono font-bold text-xl text-slate-800"></div>
+            <span class="text-xs text-slate-400">Attendance:</span>
+            <div id="modal-360-att" class="font-mono font-bold text-sm text-emerald-600"></div>
+          </div>
+        </div>
+
+        <h4 class="font-bold text-sm text-slate-800 mb-2">Enrolled Subjects Performance</h4>
+        <div class="ll-table-wrapper mb-3">
+          <table class="ll-table">
+            <thead>
+              <tr>
+                <th>Subject</th>
+                <th>Midterm</th>
+                <th>Assignments</th>
+                <th>Total</th>
+                <th>Grade</th>
+                <th>Attendance</th>
+              </tr>
+            </thead>
+            <tbody id="modal-360-marks-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="ll-modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="window.learnLensUI.closeModal('modal-student-360')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: POST ANNOUNCEMENT -->
+  <div id="modal-post-announcement" class="ll-modal-overlay">
+    <div class="ll-modal-dialog">
+      <div class="ll-modal-header">
+        <h3 class="font-bold text-base">Post Class Announcement</h3>
+        <button class="ll-modal-close" onclick="window.learnLensUI.closeModal('modal-post-announcement')">&times;</button>
+      </div>
+      <form id="form-post-announcement" onsubmit="event.preventDefault(); window.learnLensFaculty.saveAnnouncementFromModal();">
+        <div class="ll-modal-body">
+          <div class="form-group">
+            <label class="form-label">Announcement Title</label>
+            <input type="text" id="anc-modal-title" class="form-control" placeholder="e.g. Lab Session Rescheduled" required />
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label">Target Audience</label>
+              <select id="anc-modal-audience" class="form-control form-select">
+                <option value="CSE-3A">CSE-3A</option>
+                <option value="CSE-3B">CSE-3B</option>
+                <option value="All Assigned Classes">All Assigned Classes</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Priority</label>
+              <select id="anc-modal-priority" class="form-control form-select">
+                <option value="Normal">Normal</option>
+                <option value="High">High (Important)</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Announcement Content</label>
+            <textarea id="anc-modal-content" class="form-control" rows="3" placeholder="Provide details, room numbers, or preparation notes..." required></textarea>
+          </div>
+        </div>
+        <div class="ll-modal-footer">
+          <button type="button" class="btn btn-outline" onclick="window.learnLensUI.closeModal('modal-post-announcement')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Broadcast Announcement</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/analytics.js"></script>
+  <script src="js/faculty.js"></script>
+</body>
+</html>

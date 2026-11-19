@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign In – LearnLens Smart Academic Management</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/login.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+</head>
+<body class="ll-login-page">
+
+  <div class="ll-login-container">
+    <!-- Left Hero Brand Panel -->
+    <div class="ll-login-hero">
+      <div class="ll-hero-content">
+        <div class="ll-hero-badge">
+          <i class="fa-solid fa-graduation-cap"></i> LearnLens Academic Platform
+        </div>
+        <h2 class="ll-hero-title">Learn Smarter.<br>Teach Better.<br>Manage Efficiently.</h2>
+        <p class="ll-hero-tagline">
+          The unified intelligence ecosystem connecting Students, Faculty, and Academic Leaders through automated gap detection and shared data.
+        </p>
+
+        <div class="ll-hero-features">
+          <div class="ll-hero-feature-item">
+            <div class="ll-hero-feature-icon"><i class="fa-solid fa-brain"></i></div>
+            <div class="ll-hero-feature-text">
+              <h4>Smart Learning Gap Detector</h4>
+              <p>Pinpoint concept deficiencies and receive targeted learning roadmaps.</p>
+            </div>
+          </div>
+          <div class="ll-hero-feature-item">
+            <div class="ll-hero-feature-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+            <div class="ll-hero-feature-text">
+              <h4>Early Academic Warning System</h4>
+              <p>Automated alerts for grades below 40% and attendance below 75%.</p>
+            </div>
+          </div>
+          <div class="ll-hero-feature-item">
+            <div class="ll-hero-feature-icon"><i class="fa-solid fa-rotate"></i></div>
+            <div class="ll-hero-feature-text">
+              <h4>Cross-Module Reactive Sync</h4>
+              <p>Faculty evaluations instantly recalculate student scores and admin charts.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ll-hero-footer">
+        © 2026 LearnLens Systems. Client-Side Prototype powered by LocalStorage.
+      </div>
+    </div>
+
+    <!-- Right Login & 1-Click Demo Launcher -->
+    <div class="ll-login-form-wrapper">
+      <div class="ll-login-header">
+        <a href="index.html" class="ll-brand-link mb-2" style="display: inline-flex;">
+          <div class="ll-brand-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+          <div class="ll-brand-text">LearnLens</div>
+        </a>
+        <h2 class="ll-login-title">Welcome Back</h2>
+        <p class="ll-login-subtitle">Sign in to your academic dashboard or use 1-click demo access.</p>
+      </div>
+
+      <!-- Role Selection Tabs -->
+      <div class="role-selector-group" id="login-role-tabs">
+        <button type="button" class="role-selector-tab active" data-role="student" onclick="selectRoleTab('student')">
+          <i class="fa-solid fa-user-graduate mr-1"></i> Student
+        </button>
+        <button type="button" class="role-selector-tab" data-role="faculty" onclick="selectRoleTab('faculty')">
+          <i class="fa-solid fa-chalkboard-user mr-1"></i> Faculty
+        </button>
+        <button type="button" class="role-selector-tab" data-role="admin" onclick="selectRoleTab('admin')">
+          <i class="fa-solid fa-shield-halved mr-1"></i> Admin
+        </button>
+      </div>
+
+      <!-- 1-Click Fast Demo Login Buttons -->
+      <div class="ll-demo-cards-wrapper">
+        <div class="ll-demo-header-label">
+          <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Fast 1-Click Demo Access</span>
+          <span class="badge badge-primary text-xs">Recommended</span>
+        </div>
+        <div class="ll-demo-cards-grid">
+          <!-- Student Demo Card -->
+          <div class="ll-demo-card" onclick="window.learnLensAuth.quickDemoLogin('student')">
+            <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&q=80" class="ll-demo-card-avatar" alt="Student" />
+            <span class="ll-demo-card-role">Student</span>
+            <span class="ll-demo-card-name">Alex Rivera</span>
+            <span class="ll-demo-card-action">Launch <i class="fa-solid fa-arrow-right"></i></span>
+          </div>
+
+          <!-- Faculty Demo Card -->
+          <div class="ll-demo-card" onclick="window.learnLensAuth.quickDemoLogin('faculty')">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80" class="ll-demo-card-avatar" alt="Faculty" />
+            <span class="ll-demo-card-role">Faculty</span>
+            <span class="ll-demo-card-name">Dr. Vance</span>
+            <span class="ll-demo-card-action">Launch <i class="fa-solid fa-arrow-right"></i></span>
+          </div>
+
+          <!-- Admin Demo Card -->
+          <div class="ll-demo-card" onclick="window.learnLensAuth.quickDemoLogin('admin')">
+            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&q=80" class="ll-demo-card-avatar" alt="Admin" />
+            <span class="ll-demo-card-role">Admin</span>
+            <span class="ll-demo-card-name">Dean Vance</span>
+            <span class="ll-demo-card-action">Launch <i class="fa-solid fa-arrow-right"></i></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ll-divider-text">OR SIGN IN MANUALLY</div>
+
+      <!-- Manual Login Form -->
+      <form id="login-form">
+        <div class="form-group">
+          <label class="form-label" for="login-email">Email Address</label>
+          <div style="position: relative;">
+            <input type="email" id="login-email" class="form-control" placeholder="name@learnlens.com" required />
+            <i class="fa-regular fa-envelope" style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); color: var(--slate-400);"></i>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="login-password">Password</label>
+          <div style="position: relative;">
+            <input type="password" id="login-password" class="form-control" placeholder="••••••••" style="padding-right: 2.75rem;" required />
+            <button type="button" class="password-toggle-btn" id="toggle-password-btn" onclick="togglePasswordVisibility()" title="Toggle password visibility" aria-label="Toggle password visibility">
+              <i class="fa-solid fa-eye" id="password-eye-icon"></i>
+            </button>
+          </div>
+        </div>
+
+        <div id="login-error-msg" style="display: none;" class="p-3 bg-rose-50 border border-rose-200 rounded-lg text-xs text-rose-700 mb-3">
+          <i class="fa-solid fa-circle-exclamation mr-1"></i> <span id="login-error-text"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-lg w-full" style="width: 100%;">
+          <i class="fa-solid fa-right-to-bracket"></i> Sign In to Portal
+        </button>
+      </form>
+
+      <!-- Demo Credentials Cheat Sheet -->
+      <div class="ll-credentials-cheat-sheet">
+        <div style="font-weight: 700; color: var(--slate-700); margin-bottom: 0.35rem; display: flex; align-items: center; gap: 0.35rem;">
+          <i class="fa-solid fa-key text-indigo-500"></i> Demo Account Credentials:
+        </div>
+        <div class="ll-credentials-row">
+          <span>Student:</span>
+          <span><code>student@learnlens.com</code> / <code>Student123</code></span>
+        </div>
+        <div class="ll-credentials-row">
+          <span>Faculty:</span>
+          <span><code>faculty@learnlens.com</code> / <code>Faculty123</code></span>
+        </div>
+        <div class="ll-credentials-row">
+          <span>Admin:</span>
+          <span><code>admin@learnlens.com</code> / <code>Admin123</code></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/common.js"></script>
+
+  <script>
+    let currentSelectedRole = 'student';
+
+    function selectRoleTab(role) {
+      currentSelectedRole = role;
+      document.querySelectorAll('.role-selector-tab').forEach(tab => {
+        if (tab.dataset.role === role) {
+          tab.classList.add('active');
+        } else {
+          tab.classList.remove('active');
+        }
+      });
+
+      // Conveniently pre-fill or set placeholders for the selected role
+      const emailInput = document.getElementById('login-email');
+      const passInput = document.getElementById('login-password');
+      if (role === 'student') {
+        emailInput.value = 'student@learnlens.com';
+        passInput.value = 'Student123';
+      } else if (role === 'faculty') {
+        emailInput.value = 'faculty@learnlens.com';
+        passInput.value = 'Faculty123';
+      } else if (role === 'admin') {
+        emailInput.value = 'admin@learnlens.com';
+        passInput.value = 'Admin123';
+      }
+      const errBox = document.getElementById('login-error-msg');
+      if (errBox) errBox.style.display = 'none';
+    }
+
+    function togglePasswordVisibility() {
+      const passInput = document.getElementById('login-password');
+      const eyeIcon = document.getElementById('password-eye-icon');
+      if (passInput.type === 'password') {
+        passInput.type = 'text';
+        eyeIcon.classList.remove('fa-eye');
+        eyeIcon.classList.add('fa-eye-slash');
+      } else {
+        passInput.type = 'password';
+        eyeIcon.classList.remove('fa-eye-slash');
+        eyeIcon.classList.add('fa-eye');
+      }
+    }
+
+    document.getElementById('login-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value;
+      const pass = document.getElementById('login-password').value;
+      const errBox = document.getElementById('login-error-msg');
+      const errText = document.getElementById('login-error-text');
+
+      const result = window.learnLensAuth.login(email, pass);
+      if (result.success) {
+        window.location.href = result.redirect;
+      } else {
+        errText.textContent = result.message;
+        errBox.style.display = 'block';
+      }
+    });
+
+    // Check if user is already logged in, redirect them
+    const existing = window.learnLensAuth.getCurrentUser();
+    if (existing) {
+      if (existing.role === 'Student') window.location.href = 'student.html';
+      else if (existing.role === 'Faculty') window.location.href = 'faculty.html';
+      else if (existing.role === 'Admin') window.location.href = 'admin.html';
+    }
+  </script>
+</body>
+</html>
